@@ -24,7 +24,7 @@ import java.util.logging.Logger;
 public class ServerChat {
 
     private ServerSocket serverSocket;
-    private ArrayList<Socket> clientSock = new ArrayList<>();
+    private ArrayList<Socket> clientSock;
 
     public ServerChat() throws IOException {
         serverSocket = new ServerSocket(PORT);
