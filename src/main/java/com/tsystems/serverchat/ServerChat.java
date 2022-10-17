@@ -17,6 +17,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
@@ -26,13 +27,15 @@ public class ServerChat {
 
     private ServerSocket serverSocket;
     private ArrayList<Socket> clientSock;
-    private ArrayList<String> unProcessText; 
-    
+    private ArrayList<String> unProcessText;
+    ReentrantLock lock;
+
     public ServerChat() throws IOException
     {
         serverSocket = new ServerSocket(PORT);
         clientSock = new ArrayList<>();
         unProcessText = new ArrayList<>();
+        lock = new ReentrantLock();
     }
 
     /*
@@ -52,16 +55,13 @@ public class ServerChat {
             clientSock.add(clientSocket);
 
             //process(read(clientSocket));
-            
-            ThreadReader tr=new ThreadReader(clientSock);
-            Chat chat=new Chat("All", clientSock);
-            ThreadWriter tw=new ThreadWriter(unProcessText, chat);
-            
-            
+            ThreadReader tr = new ThreadReader(clientSock, lock);
+            Chat chat = new Chat("All", clientSock);
+            ThreadWriter tw = new ThreadWriter(unProcessText, chat, lock);
+
             ExecutorService executorService = Executors.newFixedThreadPool(5);
             executorService.execute(tr);
             executorService.execute(tw);
-            
 
         }
 

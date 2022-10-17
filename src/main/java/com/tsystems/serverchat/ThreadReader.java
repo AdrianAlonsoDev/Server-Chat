@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,10 +22,12 @@ public class ThreadReader implements Runnable {
 
     private ArrayList<Socket> clientSock;
     private ArrayList<String> unProcessText;
+    private ReentrantLock lock;
 
-    public ThreadReader(ArrayList<Socket> clientSock)
+    public ThreadReader(ArrayList<Socket> clientSock, ReentrantLock lock)
     {
         this.clientSock = clientSock;
+        this.lock = lock;
     }
 
     @Override
@@ -37,6 +40,7 @@ public class ThreadReader implements Runnable {
                 Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            lock.lock();
             for (Socket socket : clientSock) {
                 try {
                     if (socket.isConnected()) {
@@ -49,6 +53,7 @@ public class ThreadReader implements Runnable {
                     Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            lock.unlock();
         }
     }
 
