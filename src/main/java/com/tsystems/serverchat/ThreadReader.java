@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -21,15 +22,18 @@ public class ThreadReader implements Runnable {
 
     private ArrayList<Socket> clientSock;
     private ArrayList<String> unProcessText;
+    private ReentrantLock lock;
 
-    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<String> _unProcessText) {
+
+    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<String> _unProcessText,  ReentrantLock lock) {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
+        this.lock = lock;
     }
-
     
     @Override
-    public void run() {
+    public void run()
+    {
         while (true) {
             try {
                 Thread.sleep(500);
@@ -37,23 +41,20 @@ public class ThreadReader implements Runnable {
                 Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
             }
 
+            lock.lock();
             for (Socket socket : clientSock) {
-
-                if (socket.isConnected()) {
-                    try {
+                try {
+                    if (socket.isConnected()) {
                         read(socket);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    try {
+                    } else {
                         clearSocket(socket);
                         //true
-                    } catch (IOException ex) {
-                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                } catch (IOException ex) {
+                    Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            lock.unlock();
         }
     }
 
@@ -64,7 +65,8 @@ public class ThreadReader implements Runnable {
      * @return text that has been readed from the socket
      * @throws IOException the socket can not be readed
      */
-    private void read(Socket client) throws IOException {
+    private void read(Socket client) throws IOException
+    {
         InputStream input;
         String text = "";
         try {
@@ -84,12 +86,14 @@ public class ThreadReader implements Runnable {
 
     }
 
+
     /**
      * This method safely deletes a socket.
      * @param client socket to be deleted
      * @throws IOException if the socket is already close or disconnected
      */
     public void clearSocket(Socket client) throws IOException {
+
 
 //        try (client) {
         if (client.isConnected()) {
