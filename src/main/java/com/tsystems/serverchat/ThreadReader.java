@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class ThreadReader implements Runnable {
 
     private ArrayList<Socket> clientSock;
-    private ArrayList<String> unProcessText; 
+    private ArrayList<String> unProcessText;
 
     public ThreadReader(ArrayList<Socket> clientSock) {
         this.clientSock = clientSock;
@@ -28,32 +28,32 @@ public class ThreadReader implements Runnable {
 
     @Override
     public void run() {
+        while (true) {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            for (Socket socket : clientSock) {
 
-        for (Socket socket : clientSock) {
-
-            if (socket.isConnected()) {
-                try {
-                    read(socket);
-                } catch (IOException ex) {
-                    Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                try {
-                    clearSocket(socket);
-                    //true
-                } catch (IOException ex) {
-                    Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+                if (socket.isConnected()) {
+                    try {
+                        read(socket);
+                    } catch (IOException ex) {
+                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    try {
+                        clearSocket(socket);
+                        //true
+                    } catch (IOException ex) {
+                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
     }
-
 
     /**
      * Read from the socket the mensaje
@@ -76,9 +76,9 @@ public class ThreadReader implements Runnable {
             text += reader.readLine();
         }
 
-        
-        if(!text.equals(""))
+        if (!text.equals("")) {
             unProcessText.add(text);
+        }
 
     }
 
@@ -89,11 +89,10 @@ public class ThreadReader implements Runnable {
             client.close();
             if (client.isClosed()) {
                 clientSock.remove(client);
-                if(clientSock.contains(client)){
+                if (clientSock.contains(client)) {
                     throw new IOException("ThreadReader clearSocket IO Exception Remove");
                 }
-            }
-            else{
+            } else {
                 throw new IOException("ThreadReader clearSocket IO Exception Close");
             }
 
