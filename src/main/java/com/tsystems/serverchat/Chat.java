@@ -12,9 +12,16 @@ public class Chat {
     
     private String nameChat;
 
+    /**
+     * Constructor defauld
+     */
     public Chat() {
     }
 
+    /**
+     * Constructor method
+     * @param nameChat 
+     */
     public Chat(String nameChat) {
         this.nameChat = nameChat;
     }
@@ -22,15 +29,20 @@ public class Chat {
     public String getNameChat() {
         return nameChat;
     }
-    
+    /**
+     * Method saveChat for save the chat 
+     */
     public void saveChat(){
         
     }
     
-    public void messangeChat(){
+    public void messageChat(){
         
     }
     
+    /**
+     * Method notificationChat for notification the events
+     */
     public void notificationChat(){
         
     }
