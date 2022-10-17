@@ -15,6 +15,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  *
@@ -49,7 +51,17 @@ public class ServerChat {
             System.out.println("Received connection ");
             clientSock.add(clientSocket);
 
-            process(read(clientSocket));
+            //process(read(clientSocket));
+            
+            ThreadReader tr=new ThreadReader(clientSock);
+            Chat chat=new Chat("All", clientSock);
+            ThreadWriter tw=new ThreadWriter(unProcessText, chat);
+            
+            
+            ExecutorService executorService = Executors.newFixedThreadPool(5);
+            executorService.execute(tr);
+            executorService.execute(tw);
+            
 
         }
 

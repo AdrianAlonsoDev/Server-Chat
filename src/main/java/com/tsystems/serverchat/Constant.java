@@ -10,6 +10,6 @@ package com.tsystems.serverchat;
  */
 public class Constant {
     public static int PORT=8080;
-    public static String IP= "192.168.3.112";
+    public static String IP= "192.168.3.215";
     
 }
