@@ -53,7 +53,7 @@ public class ServerChat {
 
             //process(read(clientSocket));
             
-            ThreadReader tr=new ThreadReader(clientSock);
+            ThreadReader tr=new ThreadReader(clientSock,unProcessText);
             Chat chat=new Chat("All", clientSock);
             ThreadWriter tw=new ThreadWriter(unProcessText, chat);
             

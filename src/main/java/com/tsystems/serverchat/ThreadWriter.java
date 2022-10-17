@@ -10,7 +10,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * This class is continously writting messages in the chat and removing them from the array.
+ * 
  * @author aalonsoa
  */
 public class ThreadWriter implements Runnable {

@@ -22,10 +22,12 @@ public class ThreadReader implements Runnable {
     private ArrayList<Socket> clientSock;
     private ArrayList<String> unProcessText;
 
-    public ThreadReader(ArrayList<Socket> clientSock) {
+    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<String> _unProcessText) {
+        this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
     }
 
+    
     @Override
     public void run() {
         while (true) {
@@ -82,6 +84,11 @@ public class ThreadReader implements Runnable {
 
     }
 
+    /**
+     * This method safely deletes a socket.
+     * @param client socket to be deleted
+     * @throws IOException if the socket is already close or disconnected
+     */
     public void clearSocket(Socket client) throws IOException {
 
 //        try (client) {

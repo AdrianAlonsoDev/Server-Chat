@@ -11,17 +11,17 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- *
+ * This class writes messages on a specific chat. 
+ * 
  * @author ramaldon
  */
 public class Chat {
     private ArrayList<Socket> clientSock;
-    private String text;
     
     private String nameChat;
 
     /**
-     * Constructor defauld
+     * Constructor default
      */
     public Chat() {
     }
@@ -45,6 +45,13 @@ public class Chat {
     public void notificationChat(){
         
     }
+    /**
+     * Send a mensage to a expecific socket
+     *
+     * @param client socket where we send the mensage
+     * @param text to send to the socket
+     * @throws IOException cant write in the socket
+     */
     private void write(Socket client, String text) throws IOException
     {
         OutputStream output;
@@ -72,6 +79,14 @@ public class Chat {
             write(socket, text);
         }
     }
+    
+    /**
+     *  This method add the buffered mesages to the broadcast. 
+     * 
+     * @param text to be added
+     * @throws IOException if the messages can`t be writed.
+     * @see broadcastAll
+     */
     public void addText(String text) throws IOException {
         broadcastAll(text);
     
