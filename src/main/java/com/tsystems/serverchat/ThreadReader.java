@@ -22,12 +22,14 @@ public class ThreadReader implements Runnable {
     private ArrayList<Socket> clientSock;
     private ArrayList<String> unProcessText;
 
-    public ThreadReader(ArrayList<Socket> clientSock) {
+    public ThreadReader(ArrayList<Socket> clientSock)
+    {
         this.clientSock = clientSock;
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
         while (true) {
             try {
                 Thread.sleep(500);
@@ -36,20 +38,15 @@ public class ThreadReader implements Runnable {
             }
 
             for (Socket socket : clientSock) {
-
-                if (socket.isConnected()) {
-                    try {
+                try {
+                    if (socket.isConnected()) {
                         read(socket);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } else {
-                    try {
+                    } else {
                         clearSocket(socket);
                         //true
-                    } catch (IOException ex) {
-                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                     }
+                } catch (IOException ex) {
+                    Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -62,7 +59,8 @@ public class ThreadReader implements Runnable {
      * @return text that has been readed from the socket
      * @throws IOException the socket can not be readed
      */
-    private void read(Socket client) throws IOException {
+    private void read(Socket client) throws IOException
+    {
         InputStream input;
         String text = "";
         try {
@@ -82,7 +80,8 @@ public class ThreadReader implements Runnable {
 
     }
 
-    public void clearSocket(Socket client) throws IOException {
+    public void clearSocket(Socket client) throws IOException
+    {
 
 //        try (client) {
         if (client.isConnected()) {
