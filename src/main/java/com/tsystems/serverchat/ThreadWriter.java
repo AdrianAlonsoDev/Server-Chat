@@ -27,18 +27,20 @@ public class ThreadWriter implements Runnable {
     @Override
     public void run()
     {
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        for (String str : messagesArray) {
+        while (true) {
             try {
-                chat.addText(str);
-                messagesArray.remove(str);
-            } catch (IOException ex) {
-                Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            for (String str : messagesArray) {
+                try {
+                    chat.addText(str);
+                    messagesArray.remove(str);
+                } catch (IOException ex) {
+                    Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         }
     }
