@@ -24,11 +24,13 @@ public class ServerChat {
 
     private ServerSocket serverSocket;
     private ArrayList<Socket> clientSock;
-
+    private ArrayList<String> unProcessText; 
+    
     public ServerChat() throws IOException
     {
         serverSocket = new ServerSocket(PORT);
         clientSock = new ArrayList<>();
+        unProcessText = new ArrayList<>();
     }
 
     /*
