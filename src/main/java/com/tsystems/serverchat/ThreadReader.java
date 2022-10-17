@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 public class ThreadReader implements Runnable {
 
     private ArrayList<Socket> clientSock;
+    private ArrayList<String> unProcessText; 
 
     public ThreadReader(ArrayList<Socket> clientSock) {
         this.clientSock = clientSock;
@@ -35,6 +36,7 @@ public class ThreadReader implements Runnable {
         }
 
         for (Socket socket : clientSock) {
+
             if (socket.isConnected()) {
                 try {
                     read(socket);
@@ -52,6 +54,7 @@ public class ThreadReader implements Runnable {
         }
     }
 
+
     /**
      * Read from the socket the mensaje
      *
@@ -59,7 +62,7 @@ public class ThreadReader implements Runnable {
      * @return text that has been readed from the socket
      * @throws IOException the socket can not be readed
      */
-    private String read(Socket client) throws IOException {
+    private void read(Socket client) throws IOException {
         InputStream input;
         String text = "";
         try {
@@ -73,7 +76,10 @@ public class ThreadReader implements Runnable {
             text += reader.readLine();
         }
 
-        return text;
+        
+        if(!text.equals(""))
+            unProcessText.add(text);
+
     }
 
     public void clearSocket(Socket client) throws IOException {
