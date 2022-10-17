@@ -4,11 +4,19 @@
  */
 package com.tsystems.serverchat;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.util.ArrayList;
+
 /**
  *
  * @author ramaldon
  */
 public class Chat {
+    private ArrayList<Socket> clientSock;
+    private String text;
     
     private String nameChat;
 
@@ -22,22 +30,13 @@ public class Chat {
      * Constructor method
      * @param nameChat 
      */
-    public Chat(String nameChat) {
+    public Chat(String nameChat,ArrayList<Socket> clientSock ) {
         this.nameChat = nameChat;
+        this.clientSock=clientSock;
     }
 
     public String getNameChat() {
         return nameChat;
-    }
-    /**
-     * Method saveChat for save the chat 
-     */
-    public void saveChat(){
-        
-    }
-    
-    public void messageChat(){
-        
     }
     
     /**
@@ -45,6 +44,42 @@ public class Chat {
      */
     public void notificationChat(){
         
+    }
+    private void write(Socket client, String text) throws IOException
+    {
+        OutputStream output;
+        try {
+            output = client.getOutputStream();
+        } catch (IOException ex) {
+            throw new IOException("Output write socket IO Exception");
+        }
+        PrintWriter writer = new PrintWriter(output, true);
+
+        writer.println(text);
+        //writer.close();
+    }
+
+    /**
+     * Send a specific mensage to all my sockets
+     *
+     * @param mensage to be sended
+     * @throws IOException write error
+     * @see write
+     */
+    private void broadcastAll(String text) throws IOException
+    {
+        for (Socket socket : clientSock) {
+            write(socket, text);
+        }
+    }
+    public void addText(String text) throws IOException {
+        broadcastAll(text);
+    
+}
+
+    private void process(String read)
+    {
+        //SEND MESAJE TO THE CHAT
     }
     
 }

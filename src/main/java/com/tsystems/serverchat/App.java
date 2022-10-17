@@ -17,11 +17,13 @@ public class App {
 
     public static void main(String[] args)
     {
+
         try {
             ServerChat sc = new ServerChat();
             sc.run();
         } catch (IOException ex) {
             Logger.getLogger(App.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
 }

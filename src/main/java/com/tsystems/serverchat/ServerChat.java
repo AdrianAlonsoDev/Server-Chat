@@ -23,7 +23,7 @@ import java.util.ArrayList;
 public class ServerChat {
 
     private ServerSocket serverSocket;
-    private ArrayList<Socket> clientSock = new ArrayList<>();
+    private ArrayList<Socket> clientSock;
 
     public ServerChat() throws IOException
     {
