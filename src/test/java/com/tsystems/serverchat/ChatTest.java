@@ -6,6 +6,8 @@ package com.tsystems.serverchat;
 
 import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.Message;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import javax.annotation.processing.Messager;
@@ -13,6 +15,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 /**
@@ -32,13 +36,21 @@ public class ChatTest {
         // Create mock
         System.out.println("Test add Text example");
         Socket socketMockOK = Mockito.mock(Socket.class);
+        Socket socketMock = Mockito.mock(Socket.class);
+        
         ArrayList<Socket> socketTestList= new ArrayList<>();
         socketTestList.add(socketMockOK);
+        
+        OutputStream imput = Mockito.mock(OutputStream.class);
+        when(socketMockOK.getOutputStream()).thenReturn(imput);
+        
         String textString = "Text for example";
-        Message message = new Message(textString,socketMockOK);
+        Message message = new Message(textString,socketMock);
         Chat instance = new Chat("test",socketTestList);
         instance.addText(message);
-        // TODO review the generated test code and remove the default call to fail.
+        
+        
+        verify(socketMockOK.getOutputStream(), times(0));
 
     }
 
