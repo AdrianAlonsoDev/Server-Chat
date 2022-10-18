@@ -15,9 +15,10 @@ import java.util.ArrayList;
  * @author ramaldon
  */
 public class Chat {
+
     private ArrayList<Socket> clientSock;
     private String text;
-    
+
     private String nameChat;
 
     /**
@@ -28,25 +29,41 @@ public class Chat {
 
     /**
      * Constructor method
-     * @param nameChat 
+     *
+     * @param nameChat
+     * @param clientSock is Arraylist from Socket
+     *
      */
-    public Chat(String nameChat,ArrayList<Socket> clientSock ) {
+    public Chat(String nameChat, ArrayList<Socket> clientSock) {
         this.nameChat = nameChat;
-        this.clientSock=clientSock;
+        this.clientSock = clientSock;
     }
 
+    /**
+     * getNameChat is method get from nameChat
+     *
+     * @return nameChat
+     */
     public String getNameChat() {
         return nameChat;
     }
-    
+
     /**
      * Method notificationChat for notification the events
+     * 
      */
-    public void notificationChat(){
+    public void notificationChat() {
         
     }
-    private void write(Socket client, String text) throws IOException
-    {
+
+    /**
+     * Send a mensage to a expecific socket
+     *
+     * @param client socket where we send the mensage
+     * @param text to send to the socket
+     * @throws IOException for cant write in the socket
+     */
+    private void write(Socket client, String text) throws IOException {
         OutputStream output;
         try {
             output = client.getOutputStream();
@@ -62,24 +79,36 @@ public class Chat {
     /**
      * Send a specific mensage to all my sockets
      *
-     * @param mensage to be sended
+     * @param text to be sended
      * @throws IOException write error
      * @see write
      */
-    private void broadcastAll(String text) throws IOException
-    {
+    private void broadcastAll(String text) throws IOException {
         for (Socket socket : clientSock) {
             write(socket, text);
         }
     }
+
+    /**
+     * addTexts send
+     *
+     * @param text to be sended
+     * @throws IOException write error
+     * @see broadcastAll
+     */
     public void addText(String text) throws IOException {
         broadcastAll(text);
-    
-}
 
-    private void process(String read)
-    {
+    }
+
+    
+    /**
+     * process is method 
+     * 
+     * @param read 
+     */
+    private void process(String read) {
         //SEND MESAJE TO THE CHAT
     }
-    
+
 }
