@@ -5,10 +5,14 @@
 package com.tsystems.serverchat;
 
 
+import java.lang.reflect.Array;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.concurrent.locks.ReentrantLock;
 
 import org.junit.Test;
 import org.mockito.Mockito;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -28,8 +32,17 @@ public class ThreadReaderTest {
     public void testClearSocket() throws Exception {
         
         Socket socketMockNotOK = Mockito.mock(Socket.class);
-        Socket socketMockOK;
+        Socket socketMockOK = Mockito.mock(Socket.class);
+        ArrayList<Socket> socketList= new ArrayList<>();
+        ArrayList<Message> msgList= new ArrayList<>();
+        ReentrantLock lock= new ReentrantLock();
         
+        ThreadReader tr= new ThreadReader(socketList, msgList, lock);
+        
+        
+            
+        
+        when(socketMockOK.isConnected()).thenReturn(true);
     }
 
 }
