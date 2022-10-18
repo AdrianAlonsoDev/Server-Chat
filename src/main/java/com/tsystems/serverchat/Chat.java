@@ -11,8 +11,8 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * This class writes messages on a specific chat. 
- * 
+ * This class writes messages on a specific chat.
+ *
  * @author ramaldon
  */
 public class Chat {
@@ -22,7 +22,7 @@ public class Chat {
     private String nameChat;
 
     /**
-     * Constructor default
+     * Constructor defauld
      */
     public Chat() {
     }
@@ -50,10 +50,10 @@ public class Chat {
 
     /**
      * Method notificationChat for notification the events
-     * 
+     *
      */
     public void notificationChat() {
-        
+
     }
 
     /**
@@ -63,9 +63,7 @@ public class Chat {
      * @param text to send to the socket
      * @throws IOException for cant write in the socket
      */
-
-    private void write(Socket client, String text) throws IOException
-    {
+    private void write(Socket client, String text) throws IOException {
 
         OutputStream output;
         try {
@@ -91,13 +89,13 @@ public class Chat {
             write(socket, text);
         }
     }
-    
+
     /**
-     *  This method add the buffered mesages to the broadcast. 
-     * 
+     * This method add the buffered mesages to the broadcast.
+     *
      * @param text to be added
      * @throws IOException if the messages can`t be writed.
-
+     *
      * @see broadcastAll
      */
     public void addText(String text) throws IOException {
@@ -107,9 +105,9 @@ public class Chat {
 
     
     /**
-     * process is method 
-     * 
-     * @param read 
+     * process is method
+     *
+     * @param read
      */
     private void process(String read) {
         //SEND MESAJE TO THE CHAT
