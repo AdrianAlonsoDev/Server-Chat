@@ -5,6 +5,8 @@
 package com.tsystems.serverchat;
 
 
+import com.tsystems.serverchat.manager.ThreadReader;
+import com.tsystems.serverchat.models.Message;
 import java.lang.reflect.Array;
 import java.net.Socket;
 import java.util.ArrayList;
