@@ -4,8 +4,8 @@
  */
 package com.tsystems.serverchat.manager;
 
-import com.tsystems.serverchat.models.Message;
 import com.tsystems.serverchat.models.Chat;
+import com.tsystems.serverchat.models.Message;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.locks.ReentrantLock;
