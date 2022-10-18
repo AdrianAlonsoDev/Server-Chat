@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.tsystems.serverchat;
+package com.tsystems.serverchat.models;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -24,7 +24,8 @@ public class Chat {
     /**
      * Constructor defauld
      */
-    public Chat() {
+    public Chat()
+    {
     }
 
     /**
@@ -34,7 +35,8 @@ public class Chat {
      * @param clientSock is Arraylist from Socket
      *
      */
-    public Chat(String nameChat, ArrayList<Socket> clientSock) {
+    public Chat(String nameChat, ArrayList<Socket> clientSock)
+    {
         this.nameChat = nameChat;
         this.clientSock = clientSock;
     }
@@ -44,7 +46,8 @@ public class Chat {
      *
      * @return nameChat
      */
-    public String getNameChat() {
+    public String getNameChat()
+    {
         return nameChat;
     }
 
@@ -52,7 +55,9 @@ public class Chat {
      * Method notificationChat for notification the events
      *
      */
+
     public void notificationChat() {
+
 
     }
 
@@ -63,6 +68,7 @@ public class Chat {
      * @param text to send to the socket
      * @throws IOException for cant write in the socket
      */
+    
     private void write(Socket client, String text) throws IOException {
 
         OutputStream output;
@@ -84,7 +90,9 @@ public class Chat {
      * @throws IOException write error
      * @see write
      */
-    private void broadcastAll(String text) throws IOException {
+    
+    private void broadcastAll(String text) throws IOException
+    {
         for (Socket socket : clientSock) {
             write(socket, text);
         }
@@ -92,24 +100,29 @@ public class Chat {
 
     /**
      * Send a specific mensage to all my sockets except mine
+     *
      * @param mensage to be sended
      * @throws IOException write error
      * @see write
      */
-    private void broadcastAll(Message msg) throws IOException {
+    private void broadcastAll(Message msg) throws IOException
+    {
         for (Socket socket : clientSock) {
-            if(!msg.getConecction().equals(socket))
-                write(socket, msg.toString());            
+            if (!msg.getConecction().equals(socket)) {
+                write(socket, msg.toString());
+            }
         }
     }
 
     /**
      * Add message to the chat and broadcastAll
+     *
      * @param msg message to be sended
      * @throws IOException write error
      * @see broadcastAll
      */
-    public void addText(Message msg) throws IOException {
+    public void addText(Message msg) throws IOException
+    {
         broadcastAll(msg);
     }
 
@@ -121,18 +134,19 @@ public class Chat {
      *
      * @see broadcastAll
      */
-    public void addText(String text) throws IOException {
+    public void addText(String text) throws IOException
+    {
         broadcastAll(text);
 
     }
 
-    
     /**
      * process is method
      *
      * @param read
      */
-    private void process(String read) {
+    private void process(String read)
+    {
         //SEND MESAJE TO THE CHAT
     }
 

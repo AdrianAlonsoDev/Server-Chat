@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.tsystems.serverchat;
+package com.tsystems.serverchat.manager;
 
+import com.tsystems.serverchat.models.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Reads a socket which is a client with a message and sends it to ThreadWriter
+ * so it can be sent to a chat.
  *
  * @author dpadilla
  */
@@ -24,13 +27,13 @@ public class ThreadReader implements Runnable {
     private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
 
-
-    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<Message> _unProcessText,  ReentrantLock lock) {
+    public ThreadReader(ArrayList<Socket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
+    {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
         this.lock = lock;
     }
-    
+
     @Override
     public void run()
     {
@@ -81,21 +84,19 @@ public class ThreadReader implements Runnable {
         }
 
         if (!text.equals("")) {
-            unProcessText.add(new Message(text,client));
+            unProcessText.add(new Message(text, client));
         }
 
     }
 
-
     /**
      * This method safely deletes a socket.
+     *
      * @param client socket to be deleted
      * @throws IOException if the socket is already close or disconnected
      */
-    public void clearSocket(Socket client) throws IOException {
-
-
-//        try (client) {
+    public void clearSocket(Socket client) throws IOException
+    {
         if (client.isConnected()) {
             client.close();
             if (client.isClosed()) {
@@ -110,10 +111,6 @@ public class ThreadReader implements Runnable {
         } else {
             throw new IOException("ThreadReader clearSocket IO Exception Connection");
         }
-
-//        } catch (IOException ex) {
-//            throw new IOException("Imput read socket IO Exception");
-//        }
     }
 
 }

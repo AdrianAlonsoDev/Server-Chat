@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.tsystems.serverchat;
+package com.tsystems.serverchat.models;
 
-import static com.tsystems.serverchat.Constant.IP;
+import static com.tsystems.serverchat.ConnectionDetails.IP;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -28,6 +28,7 @@ public class Client {
 
     public static void run()
     {
+
         int port = 8080;
 
         try ( Socket socket = new Socket(IP, port)) {

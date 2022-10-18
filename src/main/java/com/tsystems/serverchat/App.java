@@ -5,6 +5,7 @@
 //Exampled https://www.codejava.net/java-se/networking/java-socket-server-examples-tcp-ip
 package com.tsystems.serverchat;
 
+import com.tsystems.serverchat.manager.ServerChat;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
