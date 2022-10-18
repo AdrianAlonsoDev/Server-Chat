@@ -18,11 +18,11 @@ import java.util.logging.Logger;
  */
 public class ThreadWriter implements Runnable {
 
-    private ArrayList<String> messagesArray;
+    private ArrayList<Message> messagesArray;
     private Chat chat;
     private ReentrantLock lock;
 
-    public ThreadWriter(ArrayList<String> messagesArray, Chat chat, ReentrantLock lock)
+    public ThreadWriter(ArrayList<Message> messagesArray, Chat chat, ReentrantLock lock)
     {
         this.chat = chat;
         this.messagesArray = messagesArray;
@@ -40,27 +40,15 @@ public class ThreadWriter implements Runnable {
             }
 
             lock.lock();
-            ArrayList<String> readArray=new ArrayList<>(messagesArray);
-            for (String str : readArray) {
+            ArrayList<Message> readArray=new ArrayList<>(messagesArray);
+            for (Message str : readArray) {
                 try {
                     chat.addText(str);
                     messagesArray.remove(str);
                 } catch (IOException ex) {
                     Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
-//            Iterator it= messagesArray.iterator();
-//            
-//            while(it.hasNext()){
-//                String str= (String) it.next();
-//                try {
-//                    chat.addText(str);
-//                    messagesArray.remove(str);
-//                } catch (IOException ex) {
-//                    Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-            
+            }            
             
             lock.unlock();
         }

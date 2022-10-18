@@ -27,7 +27,7 @@ public class ServerChat {
 
     private ServerSocket serverSocket;
     private ArrayList<Socket> clientSock;
-    private ArrayList<String> unProcessText;
+    private ArrayList<Message> unProcessText;
     ReentrantLock lock;
 
     public ServerChat() throws IOException

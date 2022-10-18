@@ -11,13 +11,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 /**
- * This class writes messages on a specific chat. 
- * 
+ * This class writes messages on a specific chat.
+ *
  * @author ramaldon
  */
 public class Chat {
+
     private ArrayList<Socket> clientSock;
-    
+
     private String nameChat;
 
     /**
@@ -28,23 +29,25 @@ public class Chat {
 
     /**
      * Constructor method
-     * @param nameChat 
+     *
+     * @param nameChat
      */
-    public Chat(String nameChat,ArrayList<Socket> clientSock ) {
+    public Chat(String nameChat, ArrayList<Socket> clientSock) {
         this.nameChat = nameChat;
-        this.clientSock=clientSock;
+        this.clientSock = clientSock;
     }
 
     public String getNameChat() {
         return nameChat;
     }
-    
+
     /**
      * Method notificationChat for notification the events
      */
-    public void notificationChat(){
-        
+    public void notificationChat() {
+
     }
+
     /**
      * Send a mensage to a expecific socket
      *
@@ -52,8 +55,7 @@ public class Chat {
      * @param text to send to the socket
      * @throws IOException cant write in the socket
      */
-    private void write(Socket client, String text) throws IOException
-    {
+    private void write(Socket client, String text) throws IOException {
         OutputStream output;
         try {
             output = client.getOutputStream();
@@ -63,7 +65,6 @@ public class Chat {
         PrintWriter writer = new PrintWriter(output, true);
 
         writer.println(text);
-        //writer.close();
     }
 
     /**
@@ -73,28 +74,48 @@ public class Chat {
      * @throws IOException write error
      * @see write
      */
-    private void broadcastAll(String text) throws IOException
-    {
+    private void broadcastAll(String text) throws IOException {
         for (Socket socket : clientSock) {
             write(socket, text);
         }
     }
+
+    /**
+     * Send a specific mensage to all my sockets except mine
+     * @param mensage to be sended
+     * @throws IOException write error
+     * @see write
+     */
+    private void broadcastAll(Message msg) throws IOException {
+        for (Socket socket : clientSock) {
+            if(!msg.getConecction().equals(socket))
+                write(socket, msg.toString());            
+        }
+    }
+
+    /**
+     * Add message to the chat and broadcastAll
+     * @param msg message to be sended
+     * @throws IOException write error
+     * @see broadcastAll
+     */
+    public void addText(Message msg) throws IOException {
+        broadcastAll(msg);
+    }
     
     /**
-     *  This method add the buffered mesages to the broadcast. 
-     * 
+     * This method add the buffered mesages to the broadcast.
+     *
      * @param text to be added
      * @throws IOException if the messages can`t be writed.
      * @see broadcastAll
      */
     public void addText(String text) throws IOException {
         broadcastAll(text);
-    
-}
+    }
 
-    private void process(String read)
-    {
+    private void process(String read) {
         //SEND MESAJE TO THE CHAT
     }
-    
+
 }
