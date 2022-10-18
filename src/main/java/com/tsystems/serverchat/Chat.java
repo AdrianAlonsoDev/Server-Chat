@@ -74,7 +74,7 @@ public class Chat {
         PrintWriter writer = new PrintWriter(output, true);
 
         writer.println(text);
-        //writer.close();
+
     }
 
     /**
@@ -88,6 +88,29 @@ public class Chat {
         for (Socket socket : clientSock) {
             write(socket, text);
         }
+    }
+
+    /**
+     * Send a specific mensage to all my sockets except mine
+     * @param mensage to be sended
+     * @throws IOException write error
+     * @see write
+     */
+    private void broadcastAll(Message msg) throws IOException {
+        for (Socket socket : clientSock) {
+            if(!msg.getConecction().equals(socket))
+                write(socket, msg.toString());            
+        }
+    }
+
+    /**
+     * Add message to the chat and broadcastAll
+     * @param msg message to be sended
+     * @throws IOException write error
+     * @see broadcastAll
+     */
+    public void addText(Message msg) throws IOException {
+        broadcastAll(msg);
     }
 
     /**

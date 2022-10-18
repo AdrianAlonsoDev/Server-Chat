@@ -24,24 +24,7 @@ public class ThreadReaderTest {
     /**
      * Test of run method, of class ThreadReader.
      */
-//    @Test
-//    public void testRun() throws Exception{
-//        Socket socket = new Socket();
-//        ArrayList<Socket> sockets = new ArrayList<>();
-//        sockets.add(socket);
-//        ThreadReader readerToTest = new ThreadReader(sockets);
-//
-//        try {
-//            socket.close();
-//        } catch (IOException ex) {
-//            Logger.getLogger(ThreadReaderTest.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        Throwable exception = assertThrows(IOException.class, () -> {
-//            readerToTest.run();
-//        });
-//        assertEquals("There is not text", exception.getMessage());
-//        //assert readerToTest.run();
-//    }
+
 
     /**
      * Test of clearSocket method, of class ThreadReader.

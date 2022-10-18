@@ -4,6 +4,8 @@
  */
 package com.tsystems.serverchat;
 
+import java.net.Socket;
+import javax.annotation.processing.Messager;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -11,23 +13,22 @@ import static org.junit.Assert.*;
  *
  * @author ramaldon
  */
-public class ServerChatTest {
+public class ChatTest {
     
-    public ServerChatTest() {
+    public ChatTest() {
     }
 
     /**
-     * Test of run method, of class ServerChat.
+     * Test of addText method, of class Chat.
      */
     @Test
-    public void testRun() throws Exception {
-        System.out.println("run");
-        ServerChat instance = new ServerChat();
-        instance.run();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-        System.out.println("run");
-        instance.run();
+    public void testAddText_String() throws Exception {
+        // Create mock
+        System.out.println("Test add Text example");
+        Socket socket = new Socket();
+        String text = "Text for example";
+        Chat instance = new Chat();
+        instance.addText(text);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

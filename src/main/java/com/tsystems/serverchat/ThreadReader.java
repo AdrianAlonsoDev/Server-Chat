@@ -21,11 +21,11 @@ import java.util.logging.Logger;
 public class ThreadReader implements Runnable {
 
     private ArrayList<Socket> clientSock;
-    private ArrayList<String> unProcessText;
+    private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
 
 
-    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<String> _unProcessText,  ReentrantLock lock) {
+    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<Message> _unProcessText,  ReentrantLock lock) {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
         this.lock = lock;
@@ -81,7 +81,7 @@ public class ThreadReader implements Runnable {
         }
 
         if (!text.equals("")) {
-            unProcessText.add(text);
+            unProcessText.add(new Message(text,client));
         }
 
     }
