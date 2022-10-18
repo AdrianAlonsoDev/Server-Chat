@@ -30,11 +30,8 @@ public class Chat {
      * Constructor method
      *
      * @param nameChat
-<<<<<<< HEAD
-=======
      * @param clientSock is Arraylist from Socket
      *
->>>>>>> 5faf895bc90a1ad248a9e22b07166321f7749bc4
      */
     public Chat(String nameChat, ArrayList<Socket> clientSock) {
         this.nameChat = nameChat;
@@ -84,6 +81,7 @@ public class Chat {
      *
      * @param text to be sended
      * @throws IOException write error
+     * @deprecated 
      * @see write
      */
     private void broadcastAll(String text) throws IOException {
