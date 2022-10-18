@@ -18,7 +18,6 @@ import java.util.ArrayList;
 public class Chat {
 
     private ArrayList<Socket> clientSock;
-
     private String nameChat;
 
     /**
@@ -31,21 +30,32 @@ public class Chat {
      * Constructor method
      *
      * @param nameChat
+<<<<<<< HEAD
+=======
+     * @param clientSock is Arraylist from Socket
+     *
+>>>>>>> 5faf895bc90a1ad248a9e22b07166321f7749bc4
      */
     public Chat(String nameChat, ArrayList<Socket> clientSock) {
         this.nameChat = nameChat;
         this.clientSock = clientSock;
     }
 
+    /**
+     * getNameChat is method get from nameChat
+     *
+     * @return nameChat
+     */
     public String getNameChat() {
         return nameChat;
     }
 
     /**
      * Method notificationChat for notification the events
+     * 
      */
     public void notificationChat() {
-
+        
     }
 
     /**
@@ -53,9 +63,11 @@ public class Chat {
      *
      * @param client socket where we send the mensage
      * @param text to send to the socket
-     * @throws IOException cant write in the socket
+     * @throws IOException for cant write in the socket
      */
+
     private void write(Socket client, String text) throws IOException {
+
         OutputStream output;
         try {
             output = client.getOutputStream();
@@ -70,7 +82,7 @@ public class Chat {
     /**
      * Send a specific mensage to all my sockets
      *
-     * @param mensage to be sended
+     * @param text to be sended
      * @throws IOException write error
      * @see write
      */
@@ -108,12 +120,20 @@ public class Chat {
      *
      * @param text to be added
      * @throws IOException if the messages can`t be writed.
+
      * @see broadcastAll
      */
     public void addText(String text) throws IOException {
         broadcastAll(text);
+
     }
 
+    
+    /**
+     * process is method 
+     * 
+     * @param read 
+     */
     private void process(String read) {
         //SEND MESAJE TO THE CHAT
     }
