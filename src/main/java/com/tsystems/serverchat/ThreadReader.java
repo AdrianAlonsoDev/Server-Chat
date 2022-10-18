@@ -15,7 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Reads a socket which is a client with a message and
+ * Reads a socket which is a client with a message and sends it to ThreadWriter
+ * so it can be sent to a chat.
  *
  * @author dpadilla
  */

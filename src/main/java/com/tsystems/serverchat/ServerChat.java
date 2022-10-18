@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * Runs the server client and setups a Socker w/r that sends messages to a Chat.
  *
  * @author aalonsoa
  */
@@ -38,8 +39,10 @@ public class ServerChat {
         lock = new ReentrantLock();
     }
 
-    /*
-    * Starts the server
+    /**
+     * Runs the server that will listen for connections until it is shutdown.
+     *
+     * @throws IOException If there is no connection to the server.
      */
     public void run() throws IOException
     {
@@ -55,8 +58,7 @@ public class ServerChat {
             clientSock.add(clientSocket);
 
             //process(read(clientSocket));
-
-            ThreadReader tr = new ThreadReader(clientSock,unProcessText, lock);
+            ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock);
             Chat chat = new Chat("All", clientSock);
             ThreadWriter tw = new ThreadWriter(unProcessText, chat, lock);
 

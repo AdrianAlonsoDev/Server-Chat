@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Writes a socket which is a client with a message and sends it to a chat.
+ *
  * @author aalonsoa
  */
 public class ThreadWriter implements Runnable {
