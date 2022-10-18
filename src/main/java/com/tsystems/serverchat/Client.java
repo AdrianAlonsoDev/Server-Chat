@@ -4,6 +4,7 @@
  */
 package com.tsystems.serverchat;
 
+import static com.tsystems.serverchat.Constant.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,10 +28,8 @@ public class Client {
 
     public static void run()
     {
-        String hostname = "192.168.3.112";
-        int port = 8080;
 
-        try ( Socket socket = new Socket(hostname, port)) {
+        try ( Socket socket = new Socket(IP, PORT)) {
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);

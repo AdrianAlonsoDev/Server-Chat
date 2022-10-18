@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Reads a socket which is a client with a message and
  *
  * @author dpadilla
  */
@@ -85,10 +86,14 @@ public class ThreadReader implements Runnable {
 
     }
 
+    /**
+     * Disconnects the socket and removes it from the socket list.
+     *
+     * @param client Socket client that will be removed and disconnected.
+     * @throws IOException if the I/O operation is interrupted.
+     */
     public void clearSocket(Socket client) throws IOException
     {
-
-//        try (client) {
         if (client.isConnected()) {
             client.close();
             if (client.isClosed()) {
@@ -103,10 +108,6 @@ public class ThreadReader implements Runnable {
         } else {
             throw new IOException("ThreadReader clearSocket IO Exception Connection");
         }
-
-//        } catch (IOException ex) {
-//            throw new IOException("Imput read socket IO Exception");
-//        }
     }
 
 }

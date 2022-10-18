@@ -4,16 +4,14 @@
  */
 package com.tsystems.serverchat;
 
-import org.junit.Test;
-import static org.junit.Assert.*;
-
 /**
  *
  * @author ramaldon
  */
 public class ServerChatTest {
-    
-    public ServerChatTest() {
+
+    public ServerChatTest()
+    {
     }
 
     /**
@@ -27,5 +25,4 @@ public class ServerChatTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-    
 }

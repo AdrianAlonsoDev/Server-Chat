@@ -11,6 +11,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Gets the message from the socket and adds it to the chat. Runs in a different
+ * single thread.
  *
  * @author aalonsoa
  */
@@ -34,7 +36,7 @@ public class ThreadWriter implements Runnable {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
-                Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             lock.lock();
