@@ -85,6 +85,7 @@ public class Chat {
      *
      * @param text to be sended
      * @throws IOException write error
+     * @deprecated 
      * @see write
      */
     private void broadcastAll(String text) throws IOException
