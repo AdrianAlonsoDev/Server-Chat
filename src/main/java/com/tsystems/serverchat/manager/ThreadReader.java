@@ -68,7 +68,7 @@ public class ThreadReader implements Runnable {
      * @return text that has been readed from the socket
      * @throws IOException the socket can not be readed
      */
-    private void read(Socket client) throws IOException
+    public void read(Socket client) throws IOException
     {
         InputStream input;
         String text = "";
