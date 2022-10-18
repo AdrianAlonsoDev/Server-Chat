@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * Reads a socket which is a client with a message and
  *
  * @author dpadilla
  */
@@ -24,13 +25,13 @@ public class ThreadReader implements Runnable {
     private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
 
-
-    public ThreadReader(ArrayList<Socket> clientSock ,ArrayList<Message> _unProcessText,  ReentrantLock lock) {
+    public ThreadReader(ArrayList<Socket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
+    {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
         this.lock = lock;
     }
-    
+
     @Override
     public void run()
     {
@@ -81,21 +82,19 @@ public class ThreadReader implements Runnable {
         }
 
         if (!text.equals("")) {
-            unProcessText.add(new Message(text,client));
+            unProcessText.add(new Message(text, client));
         }
 
     }
 
-
     /**
      * This method safely deletes a socket.
+     *
      * @param client socket to be deleted
      * @throws IOException if the socket is already close or disconnected
      */
-    public void clearSocket(Socket client) throws IOException {
-
-
-//        try (client) {
+    public void clearSocket(Socket client) throws IOException
+    {
         if (client.isConnected()) {
             client.close();
             if (client.isClosed()) {
@@ -110,10 +109,6 @@ public class ThreadReader implements Runnable {
         } else {
             throw new IOException("ThreadReader clearSocket IO Exception Connection");
         }
-
-//        } catch (IOException ex) {
-//            throw new IOException("Imput read socket IO Exception");
-//        }
     }
 
 }

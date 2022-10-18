@@ -6,14 +6,11 @@ package com.tsystems.serverchat;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * This class is continously writting messages in the chat and removing them from the array.
- * 
  * @author aalonsoa
  */
 public class ThreadWriter implements Runnable {
@@ -36,11 +33,11 @@ public class ThreadWriter implements Runnable {
             try {
                 Thread.sleep(500);
             } catch (InterruptedException ex) {
-                Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
             }
 
             lock.lock();
-            ArrayList<Message> readArray=new ArrayList<>(messagesArray);
+            ArrayList<Message> readArray = new ArrayList<>(messagesArray);
             for (Message str : readArray) {
                 try {
                     chat.addText(str);
@@ -48,8 +45,8 @@ public class ThreadWriter implements Runnable {
                 } catch (IOException ex) {
                     Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }            
-            
+            }
+
             lock.unlock();
         }
     }

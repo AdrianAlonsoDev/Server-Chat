@@ -28,6 +28,7 @@ public class Client {
 
     public static void run()
     {
+
         int port = 8080;
 
         try ( Socket socket = new Socket(IP, port)) {
