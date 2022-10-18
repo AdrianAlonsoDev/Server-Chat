@@ -6,6 +6,7 @@ package com.tsystems.serverchat;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,7 +40,8 @@ public class ThreadWriter implements Runnable {
             }
 
             lock.lock();
-            for (String str : messagesArray) {
+            ArrayList<String> readArray=new ArrayList<>(messagesArray);
+            for (String str : readArray) {
                 try {
                     chat.addText(str);
                     messagesArray.remove(str);
@@ -47,6 +49,19 @@ public class ThreadWriter implements Runnable {
                     Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+//            Iterator it= messagesArray.iterator();
+//            
+//            while(it.hasNext()){
+//                String str= (String) it.next();
+//                try {
+//                    chat.addText(str);
+//                    messagesArray.remove(str);
+//                } catch (IOException ex) {
+//                    Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//            }
+            
+            
             lock.unlock();
         }
     }
