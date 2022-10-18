@@ -11,18 +11,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Gets the message from the socket and adds it to the chat. Runs in a different
- * single thread.
- *
  * @author aalonsoa
  */
 public class ThreadWriter implements Runnable {
 
-    private ArrayList<String> messagesArray;
+    private ArrayList<Message> messagesArray;
     private Chat chat;
     private ReentrantLock lock;
 
-    public ThreadWriter(ArrayList<String> messagesArray, Chat chat, ReentrantLock lock)
+    public ThreadWriter(ArrayList<Message> messagesArray, Chat chat, ReentrantLock lock)
     {
         this.chat = chat;
         this.messagesArray = messagesArray;
@@ -40,7 +37,8 @@ public class ThreadWriter implements Runnable {
             }
 
             lock.lock();
-            for (String str : messagesArray) {
+            ArrayList<Message> readArray = new ArrayList<>(messagesArray);
+            for (Message str : readArray) {
                 try {
                     chat.addText(str);
                     messagesArray.remove(str);
@@ -48,6 +46,7 @@ public class ThreadWriter implements Runnable {
                     Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+
             lock.unlock();
         }
     }

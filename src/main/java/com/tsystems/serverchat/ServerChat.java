@@ -27,7 +27,7 @@ public class ServerChat {
 
     private ServerSocket serverSocket;
     private ArrayList<Socket> clientSock;
-    private ArrayList<String> unProcessText;
+    private ArrayList<Message> unProcessText;
     ReentrantLock lock;
 
     public ServerChat() throws IOException
@@ -55,7 +55,8 @@ public class ServerChat {
             clientSock.add(clientSocket);
 
             //process(read(clientSocket));
-            ThreadReader tr = new ThreadReader(clientSock, lock);
+
+            ThreadReader tr = new ThreadReader(clientSock,unProcessText, lock);
             Chat chat = new Chat("All", clientSock);
             ThreadWriter tw = new ThreadWriter(unProcessText, chat, lock);
 

@@ -22,11 +22,12 @@ import java.util.logging.Logger;
 public class ThreadReader implements Runnable {
 
     private ArrayList<Socket> clientSock;
-    private ArrayList<String> unProcessText;
+    private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
 
-    public ThreadReader(ArrayList<Socket> clientSock, ReentrantLock lock)
+    public ThreadReader(ArrayList<Socket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
     {
+        this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
         this.lock = lock;
     }
@@ -81,16 +82,16 @@ public class ThreadReader implements Runnable {
         }
 
         if (!text.equals("")) {
-            unProcessText.add(text);
+            unProcessText.add(new Message(text, client));
         }
 
     }
 
     /**
-     * Disconnects the socket and removes it from the socket list.
+     * This method safely deletes a socket.
      *
-     * @param client Socket client that will be removed and disconnected.
-     * @throws IOException if the I/O operation is interrupted.
+     * @param client socket to be deleted
+     * @throws IOException if the socket is already close or disconnected
      */
     public void clearSocket(Socket client) throws IOException
     {

@@ -4,7 +4,7 @@
  */
 package com.tsystems.serverchat;
 
-import static com.tsystems.serverchat.Constant.*;
+import static com.tsystems.serverchat.Constant.IP;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,7 +29,9 @@ public class Client {
     public static void run()
     {
 
-        try ( Socket socket = new Socket(IP, PORT)) {
+        int port = 8080;
+
+        try ( Socket socket = new Socket(IP, port)) {
 
             OutputStream output = socket.getOutputStream();
             PrintWriter writer = new PrintWriter(output, true);
