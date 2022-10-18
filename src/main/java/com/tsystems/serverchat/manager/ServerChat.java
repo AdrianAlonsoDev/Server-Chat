@@ -2,9 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.tsystems.serverchat;
+package com.tsystems.serverchat.manager;
 
-import static com.tsystems.serverchat.Constant.*;
+import com.tsystems.serverchat.models.Message;
+import com.tsystems.serverchat.models.Chat;
+import static com.tsystems.serverchat.ConnectionDetails.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,6 +22,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * Runs the server client and setups a Socker w/r that sends messages to a Chat.
  *
  * @author aalonsoa
  */
@@ -38,8 +41,10 @@ public class ServerChat {
         lock = new ReentrantLock();
     }
 
-    /*
-    * Starts the server
+    /**
+     * Runs the server that will listen for connections until it is shutdown.
+     *
+     * @throws IOException If there is no connection to the server.
      */
     public void run() throws IOException
     {
@@ -55,8 +60,7 @@ public class ServerChat {
             clientSock.add(clientSocket);
 
             //process(read(clientSocket));
-
-            ThreadReader tr = new ThreadReader(clientSock,unProcessText, lock);
+            ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock);
             Chat chat = new Chat("All", clientSock);
             ThreadWriter tw = new ThreadWriter(unProcessText, chat, lock);
 

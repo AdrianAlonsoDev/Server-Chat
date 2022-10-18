@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.tsystems.serverchat;
+package com.tsystems.serverchat.manager;
 
+import com.tsystems.serverchat.models.Message;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +16,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- * Reads a socket which is a client with a message and
+ * Reads a socket which is a client with a message and sends it to ThreadWriter
+ * so it can be sent to a chat.
  *
  * @author dpadilla
  */

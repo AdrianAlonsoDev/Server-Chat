@@ -8,7 +8,7 @@ package com.tsystems.serverchat;
  *
  * @author dpadilla
  */
-public class Constant {
+public class ConnectionDetails {
     public static int PORT=8080;
     public static String IP= "192.168.3.215";
     
