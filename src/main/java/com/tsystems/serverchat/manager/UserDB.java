@@ -102,8 +102,9 @@ public class UserDB {
             pw.println(output);
             pw.close();
         }
-
         return textFile.exists();
+
+        
     }
 
     /**
