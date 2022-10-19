@@ -56,7 +56,7 @@ public class UserDB {
      */
     private boolean loadDB() throws FileNotFoundException, IOException {
         File csvFile = new File(UserDB.DB_FILEPATH);
-        System.out.println(csvFile.getAbsolutePath());
+
         if (!csvFile.exists()) {
             return false;
         }
@@ -65,7 +65,7 @@ public class UserDB {
             String line;
 
             while ((line = br.readLine()) != null) {
-                String[] taskString = line.split(";");
+                String[] taskString = line.split("|");
 
                 User user = new User(
                         taskString[0],//nickname
@@ -113,14 +113,15 @@ public class UserDB {
      * @throws IOException
      */
     public boolean addUser(User user) throws IOException {
-        if (exists(user.getNickname())) {
+        if (!exists(user.getNickname())) {
+            this.users.add(user);
             if (writeDB()) {
                 System.out.println("You are the machine! New user add DB.");
             }
-            return false;
+            return true;
         }
 
-        return this.users.add(user);
+        return false;
     }
 
     /**

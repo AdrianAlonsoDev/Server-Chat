@@ -91,13 +91,16 @@ public class ThreadLogin implements Runnable {
         InputStream input;
         String text = "";
         try {
-            input = client.getInputStream();
+            if(!client.isInputShutdown()){
+                input = client.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                text = reader.readLine();
+                if(text==null)text="";
+            }
         } catch (IOException ex) {
             throw new IOException("Imput readLoginOption socket Thread Loging IO Exception");
         }
-        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-        text = reader.readLine();
-
+        
         return text;
     }
 
@@ -120,7 +123,7 @@ public class ThreadLogin implements Runnable {
         String[] words = text.split("\\Q" + SEPARATOR);
 
         if (words.length == 2) {
-            correctOperation=db.login(words[0],words[1]);
+            correctOperation = db.login(words[0],words[1]);
             if(correctOperation) logedUser=db.getUser(words[0]);
         }
     }
