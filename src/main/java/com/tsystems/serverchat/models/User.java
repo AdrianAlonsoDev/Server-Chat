@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author aalonsoa
  */
-public class User implements Serializable {
+public class User implements Serializable{
 
     private String nickname;
     private String password;

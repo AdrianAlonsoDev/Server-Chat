@@ -40,10 +40,7 @@ public class Client {
             String message;
 
             //do {
-                System.out.println("Enter text: ");
-                //message = in.nextLine();
-
-                writer.println("L\n"+"test|pasweord");
+                
                 InputStream input = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
