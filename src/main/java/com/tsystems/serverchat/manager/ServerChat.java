@@ -61,7 +61,7 @@ public class ServerChat {
             Socket clientSocket = serverSocket.accept();
             
             ThreadLogin tl= new ThreadLogin(clientSocket, clientSock);
-            executorService.execute(tl);
+            //executorService.execute(tl);
             
             
             //////OLD TEST TO MAKE THE SERVER UP
