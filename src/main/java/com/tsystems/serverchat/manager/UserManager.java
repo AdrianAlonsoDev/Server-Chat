@@ -30,13 +30,14 @@ public class UserManager {
      * @param password User selected password
      * @return if user was logged
      */
-    public boolean login(String nickname, String password)
+    public boolean login(String nickname, String password) throws LoginException
     {
-        Optional<User> user = this.userdb.getUsers().stream()
-                .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
-                .findFirst();
-
-        return user.isPresent();
+//        Optional<User> user = this.userdb.getUsers().stream()
+//                .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
+//                .findFirst();
+//
+//        return user.isPresent();
+        return userdb.login(nickname, password);
     }
 
     /**
@@ -61,6 +62,7 @@ public class UserManager {
      * @return Returns user object
      * @throws Exception If user does not exits
      */
+<<<<<<< HEAD
 //    public User getUser(String nickname) throws Exception
 //    {
 //        User user = new User(nickname);
@@ -71,5 +73,17 @@ public class UserManager {
 //        throw new LoginException("User is null");
 //
 //    }
+=======
+    public User getUser(String nickname) throws Exception
+    {
+        User user = new User(nickname);
+        if (this.userdb.exists(nickname)) {
+            return user;
+        }
+
+        throw new LoginException("User is null");
+
+    }
+>>>>>>> abab4e0407f0cb800813db13dbcf02f9e82ed0a3
 
 }
