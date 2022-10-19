@@ -6,6 +6,7 @@ package com.tsystems.serverchat;
 
 import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.Message;
+import com.tsystems.serverchat.models.UserSocket;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
@@ -37,9 +38,13 @@ public class ChatTest {
         System.out.println("Test add Text example");
         Socket socketMockOK = Mockito.mock(Socket.class);
         Socket socketMock = Mockito.mock(Socket.class);
+        UserSocket usMock= Mockito.mock(UserSocket.class);
         
-        ArrayList<Socket> socketTestList= new ArrayList<>();
-        socketTestList.add(socketMockOK);
+        
+        ArrayList<UserSocket> socketTestList= new ArrayList<>();
+        socketTestList.add(usMock);
+        when(usMock.getSocket()).thenReturn(socketMockOK);
+        
         
         OutputStream imput = Mockito.mock(OutputStream.class);
         when(socketMockOK.getOutputStream()).thenReturn(imput);

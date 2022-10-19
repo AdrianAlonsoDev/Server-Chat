@@ -17,7 +17,7 @@ import java.util.ArrayList;
  */
 public class Chat {
 
-    private ArrayList<Socket> clientSock;
+    private ArrayList<UserSocket> clientSock;
     private String text;
     private String nameChat;
 
@@ -35,7 +35,7 @@ public class Chat {
      * @param clientSock is Arraylist from Socket
      *
      */
-    public Chat(String nameChat, ArrayList<Socket> clientSock)
+    public Chat(String nameChat, ArrayList<UserSocket> clientSock)
     {
         this.nameChat = nameChat;
         this.clientSock = clientSock;
@@ -93,8 +93,8 @@ public class Chat {
     
     private void broadcastAll(String text) throws IOException
     {
-        for (Socket socket : clientSock) {
-            write(socket, text);
+        for (UserSocket socket : clientSock) {
+            write(socket.getSocket(), text);
         }
     }
 
@@ -107,9 +107,9 @@ public class Chat {
      */
     private void broadcastAll(Message msg) throws IOException
     {
-        for (Socket socket : clientSock) {
+        for (UserSocket socket : clientSock) {
             if (!msg.getConecction().equals(socket)) {
-                write(socket, msg.toString());
+                write(socket.getSocket(), msg.toString());
             }
         }
     }

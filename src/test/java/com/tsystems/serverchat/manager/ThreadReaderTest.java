@@ -6,6 +6,7 @@ package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.manager.ThreadReader;
 import com.tsystems.serverchat.models.Message;
+import com.tsystems.serverchat.models.UserSocket;
 import java.lang.reflect.Array;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +32,7 @@ public class ThreadReaderTest {
         Socket socketMockNotOK = Mockito.mock(Socket.class);
         Socket socketMockOK = Mockito.mock(Socket.class);
 
-        ArrayList<Socket> socketList = new ArrayList<>();
+        ArrayList<UserSocket> socketList = new ArrayList<>();
         ArrayList<Message> msgList = new ArrayList<>();
         ReentrantLock lock = new ReentrantLock();
 
@@ -65,7 +66,7 @@ public class ThreadReaderTest {
     public void testRead() throws Exception {
         Socket socketMockOK = Mockito.mock(Socket.class);
         InputStream imput = Mockito.mock(InputStream.class);
-        ArrayList<Socket> socketList = new ArrayList<>();
+        ArrayList<UserSocket> socketList = new ArrayList<>();
         ArrayList<Message> msgList = new ArrayList<>();
         ReentrantLock lock = new ReentrantLock();
 
@@ -74,7 +75,7 @@ public class ThreadReaderTest {
 
         tr.read(socketMockOK);
 
-        verify(socketMockOK.getInputStream(), times(0));
+        verify(socketMockOK.getInputStream(), times(1));
 
     }
 

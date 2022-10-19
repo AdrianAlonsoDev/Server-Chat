@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.models.Message;
+import com.tsystems.serverchat.models.UserSocket;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,11 +24,11 @@ import java.util.logging.Logger;
  */
 public class ThreadReader implements Runnable {
 
-    private ArrayList<Socket> clientSock;
+    private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
 
-    public ThreadReader(ArrayList<Socket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
+    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
     {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
@@ -45,12 +46,12 @@ public class ThreadReader implements Runnable {
             }
 
             lock.lock();
-            for (Socket socket : clientSock) {
+            for (UserSocket socket : clientSock) {
                 try {
-                    if (socket.isConnected()) {
-                        read(socket);
+                    if (socket.getSocket().isConnected()) {
+                        read(socket.getSocket());
                     } else {
-                        clearSocket(socket);
+                        clearSocket(socket.getSocket());
                         //true
                     }
                 } catch (IOException ex) {
