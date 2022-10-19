@@ -6,6 +6,7 @@ package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.models.User;
 import java.util.Optional;
+import javax.security.auth.login.LoginException;
 
 /**
  * Manages the registration or login of an user.
@@ -51,6 +52,23 @@ public class UserManager {
             return this.userdb.addUser(user);
         }
         return false;
+    }
+
+    /**
+     *
+     * @param nickname User unique nickname
+     * @return Returns user object
+     * @throws Exception If user does not exits
+     */
+    public User getUser(String nickname) throws Exception
+    {
+        User user = new User(nickname);
+        if (!this.userdb.exists(nickname)) {
+            return user;
+        }
+
+        throw new LoginException("User is null");
+
     }
 
 }
