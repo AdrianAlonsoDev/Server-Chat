@@ -35,6 +35,7 @@ public class ServerChat {
     private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
     private ExecutorService executorService;
+    private UserManager userManager;
 
     public ServerChat() throws IOException {
         serverSocket = new ServerSocket(PORT);
@@ -42,6 +43,7 @@ public class ServerChat {
         unProcessText = new ArrayList<>();
         lock = new ReentrantLock();
         executorService = Executors.newFixedThreadPool(22);
+        userManager = new UserManager();
     }
 
     /**
@@ -60,7 +62,7 @@ public class ServerChat {
             System.out.println("Server listening for a connection");
             Socket clientSocket = serverSocket.accept();
             
-            ThreadLogin tl= new ThreadLogin(clientSocket, clientSock);
+            ThreadLogin tl= new ThreadLogin(clientSocket, clientSock,userManager);
             //executorService.execute(tl);
             
             

@@ -5,7 +5,6 @@
 package com.tsystems.serverchat.manager;
 
 import static com.tsystems.serverchat.ConnectionDetails.*;
-import com.tsystems.serverchat.models.Message;
 import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
 import java.io.BufferedReader;
@@ -29,12 +28,13 @@ public class ThreadLogin implements Runnable {
     private ArrayList<UserSocket> serverSockets;
     private boolean correctOperation;
     private User logedUser;
-    //private DATABASE db;
+    private UserManager db;
 
-    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets) {
+    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets,UserManager um) {
         this.client = client;
         this.serverSockets = serverSockets;
         correctOperation = false;
+        this.db=um;
     }
 
     @Override
@@ -75,6 +75,8 @@ public class ThreadLogin implements Runnable {
                     correctOperation = true;
                 }
 
+            } catch (Exception ex) {
+                Logger.getLogger(ThreadLogin.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -103,7 +105,7 @@ public class ThreadLogin implements Runnable {
      * method that read user and pasword form the socket and try login in the db
      * @throws IOException cant read the socket
      */
-    private void loggin() throws IOException {
+    private void loggin() throws IOException, Exception {
         InputStream input;
         String text = "";
 
@@ -118,8 +120,8 @@ public class ThreadLogin implements Runnable {
         String[] words = text.split("\\Q" + SEPARATOR);
 
         if (words.length == 2) {
-            //TODO------ correctOperation=DB.logging(words[0],words[1]);
-            //if(correctOperation) logedUser=Db.get(loquesea);
+            correctOperation=db.login(words[0],words[1]);
+            if(correctOperation) logedUser=db.getUser(words[0]);
         }
     }
 
@@ -127,7 +129,7 @@ public class ThreadLogin implements Runnable {
      * method that read user and pasword form the socket and try register in the db
      * @throws IOException cant read the socket
      */
-    private void register() throws IOException {
+    private void register() throws IOException, Exception {
         InputStream input;
         String text = "";
 
@@ -142,8 +144,8 @@ public class ThreadLogin implements Runnable {
         String[] words = text.split("\\Q" + SEPARATOR);
 
         if (words.length == 2) {
-            //TODO------ correctOperation=DB.Register(words[0],words[1]);
-            //if(correctOperation) logedUser=Db.get(loquesea);
+            correctOperation=db.register(words[0],words[1]);
+            if(correctOperation) logedUser=db.getUser(words[0]);
         }
     }
 
