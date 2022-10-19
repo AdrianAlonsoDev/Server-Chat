@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 import javax.security.auth.login.LoginException;
 
 /**
+ * Saves the registered users.
  *
  * @author ramaldon
  */
@@ -25,6 +26,11 @@ public class UserDB {
     private static final String DB_FILEPATH = "./db/user.csv";
     private HashSet<User> users = new HashSet<>();
 
+    /**
+     * Constructor of the class.
+     *
+     * @see loadDB
+     */
     public UserDB() {
         try {
             loadDB();
@@ -35,11 +41,20 @@ public class UserDB {
         }
     }
 
+    /**
+     * @return the users 
+     */
     public HashSet<User> getUsers() {
         return users;
     }
-
-    public boolean loadDB() throws FileNotFoundException, IOException {
+    /**
+     * This method checks if the file with all the users exists and adds all to the HashSet.  
+     * 
+     * @return boolean
+     * @throws FileNotFoundException
+     * @throws IOException 
+     */
+    private boolean loadDB() throws FileNotFoundException, IOException {
         File csvFile = new File(UserDB.DB_FILEPATH);
 
         if (!csvFile.exists()) {
@@ -64,6 +79,12 @@ public class UserDB {
         return true;
     }
 
+    /**
+     * Add a new user on the file. 
+     * 
+     * @return boolean
+     * @throws IOException
+     */
     public boolean writeDB() throws IOException {
         String output = this.users.stream()
                 .map(user -> new String(
@@ -84,14 +105,29 @@ public class UserDB {
         return csvFile.exists();
     }
 
-    public boolean addUser(User user) {
+    /**
+     * Checks if a user is already registered and if it is not adds the user to the file. 
+     * 
+     * @param user
+     * @return boolan if the user has been aded or already exists. 
+     * @throws IOException
+     */
+    public boolean addUser(User user) throws IOException {
         if (exists(user.getNickname())) {
+            if (writeDB()) {
+                System.out.println("You are the machine! New user add DB.");
+            }
             return false;
         }
 
         return this.users.add(user);
     }
 
+    /**
+     *
+     * @param nickname
+     * @return if the user exists
+     */
     public boolean exists(String nickname) {
         return this.users.stream()
                 .filter(u -> u.getNickname().equals(nickname))
@@ -99,6 +135,14 @@ public class UserDB {
                 .isPresent();
     }
 
+    /**
+     * Checks the user exists and logged it 
+     * 
+     * @param nickname
+     * @param password
+     * @return if the user has succesfully loggin
+     * @throws LoginException
+     */
     public User login(String nickname, String password) throws LoginException {
         Optional<User> user = this.users.stream()
                 .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
