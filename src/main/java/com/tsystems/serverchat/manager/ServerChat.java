@@ -63,13 +63,13 @@ public class ServerChat {
             Socket clientSocket = serverSocket.accept();
             
             ThreadLogin tl= new ThreadLogin(clientSocket, clientSock,userManager);
-            //executorService.execute(tl);
+            executorService.execute(tl);
             
             
             //////OLD TEST TO MAKE THE SERVER UP
-            System.out.println("Received connection ");
-            UserSocket temp=new UserSocket(new User("asdas","asdasd"), clientSocket);
-            clientSock.add(temp);
+//            System.out.println("Received connection ");
+//            UserSocket temp=new UserSocket(new User("asdas","asdasd"), clientSocket);
+//            clientSock.add(temp);
             //////
             
             

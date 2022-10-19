@@ -41,7 +41,7 @@ public class UserDB {
 
     public boolean loadDB() throws FileNotFoundException, IOException {
         File csvFile = new File(UserDB.DB_FILEPATH);
-
+        System.out.println(csvFile.getAbsolutePath());
         if (!csvFile.exists()) {
             return false;
         }
