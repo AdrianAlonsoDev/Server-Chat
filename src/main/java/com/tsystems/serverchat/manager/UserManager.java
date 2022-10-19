@@ -22,6 +22,10 @@ public class UserManager {
     {
         this.userdb = new UserDB();
     }
+    
+    public UserManager(UserDB newUserDB){
+        this.userdb = newUserDB;
+    }
 
     /**
      * Logins an user if it exists
