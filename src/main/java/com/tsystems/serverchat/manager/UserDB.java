@@ -100,8 +100,9 @@ public class UserDB {
 
         try ( PrintWriter pw = new PrintWriter(csvFile)) {
             pw.println(output);
+            pw.close();
         }
-
+       
         return csvFile.exists();
     }
 

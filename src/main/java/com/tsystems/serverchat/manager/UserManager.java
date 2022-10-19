@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.models.User;
+import java.io.IOException;
 import java.util.Optional;
 import javax.security.auth.login.LoginException;
 
@@ -45,7 +46,7 @@ public class UserManager {
      * @param password User selected password
      * @return if user was correctly registered
      */
-    public boolean register(String nickname, String password)
+    public boolean register(String nickname, String password) throws IOException
     {
         if (!userdb.exists(nickname)) {
             User user = new User(nickname, password);
@@ -60,15 +61,15 @@ public class UserManager {
      * @return Returns user object
      * @throws Exception If user does not exits
      */
-    public User getUser(String nickname) throws Exception
-    {
-        User user = new User(nickname);
-        if (!this.userdb.exists(nickname)) {
-            return user;
-        }
-
-        throw new LoginException("User is null");
-
-    }
+//    public User getUser(String nickname) throws Exception
+//    {
+//        User user = new User(nickname);
+//        if (!this.userdb.exists(nickname)) {
+//            return user;
+//        }
+//
+//        throw new LoginException("User is null");
+//
+//    }
 
 }
