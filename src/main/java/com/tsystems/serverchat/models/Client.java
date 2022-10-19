@@ -38,17 +38,21 @@ public class Client {
 
             Scanner in = new Scanner(System.in);
             String message;
-
             //do {
                 
                 InputStream input = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-                String time = reader.readLine();
+            do {
+                System.out.println("Enter text: ");
+                message = in.nextLine();
 
-                System.out.println(time);
+                writer.println("message");
+                writer.println("test|pasweord");
 
-            //} while (!message.equals("bye"));
+
+
+            } while (!message.equals("bye"));
 
             socket.close();
 

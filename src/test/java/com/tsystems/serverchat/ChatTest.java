@@ -6,6 +6,7 @@ package com.tsystems.serverchat;
 
 import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.Message;
+import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -39,7 +40,7 @@ public class ChatTest {
         Socket socketMockOK = Mockito.mock(Socket.class);
         Socket socketMock = Mockito.mock(Socket.class);
         UserSocket usMock= Mockito.mock(UserSocket.class);
-        
+        User user=new User("","");
         
         ArrayList<UserSocket> socketTestList= new ArrayList<>();
         socketTestList.add(usMock);
@@ -50,7 +51,7 @@ public class ChatTest {
         when(socketMockOK.getOutputStream()).thenReturn(imput);
         
         String textString = "Text for example";
-        Message message = new Message(textString,socketMock);
+        Message message = new Message(textString,socketMock,user);
         Chat instance = new Chat("test",socketTestList);
         instance.addText(message);
         

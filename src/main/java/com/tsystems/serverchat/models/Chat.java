@@ -109,7 +109,7 @@ public class Chat {
     {
         for (UserSocket socket : clientSock) {
             if (!msg.getConecction().equals(socket)) {
-                write(socket.getSocket(), socket.getUser().getNickname()+": "+msg.toString());
+                write(socket.getSocket(), msg.toString());
             }
         }
     }
