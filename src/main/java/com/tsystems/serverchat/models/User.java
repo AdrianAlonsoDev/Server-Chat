@@ -21,6 +21,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public User(String nickname)
+    {
+        this.nickname = nickname;
+    }
+
     public String getNickname()
     {
         return nickname;
