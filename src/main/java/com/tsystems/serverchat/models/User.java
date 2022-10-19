@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.models;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -19,6 +20,28 @@ public class User implements Serializable {
     {
         this.nickname = nickname;
         this.password = password;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 59 * hash + Objects.hashCode(this.nickname);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final User other = (User) obj;
+        return Objects.equals(this.nickname, other.nickname);
     }
 
     public User(String nickname)

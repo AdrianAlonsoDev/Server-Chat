@@ -29,7 +29,7 @@ public class Client {
     public static void run()
     {
 
-        int port = 8080;
+        int port = 2525;
 
         try ( Socket socket = new Socket(IP, port)) {
 

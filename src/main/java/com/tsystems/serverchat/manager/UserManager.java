@@ -30,13 +30,14 @@ public class UserManager {
      * @param password User selected password
      * @return if user was logged
      */
-    public boolean login(String nickname, String password)
+    public boolean login(String nickname, String password) throws LoginException
     {
-        Optional<User> user = this.userdb.getUsers().stream()
-                .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
-                .findFirst();
-
-        return user.isPresent();
+//        Optional<User> user = this.userdb.getUsers().stream()
+//                .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
+//                .findFirst();
+//
+//        return user.isPresent();
+        return userdb.login(nickname, password);
     }
 
     /**
