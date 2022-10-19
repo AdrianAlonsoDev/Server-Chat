@@ -39,19 +39,15 @@ public class Client {
             Scanner in = new Scanner(System.in);
             String message;
 
-            //do {
+            do {
                 System.out.println("Enter text: ");
-                //message = in.nextLine();
+                message = in.nextLine();
 
-                writer.println("L\n"+"test|pasweord");
-                InputStream input = socket.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                writer.println("message");
+                writer.println("test|pasweord");
 
-                String time = reader.readLine();
 
-                System.out.println(time);
-
-            //} while (!message.equals("bye"));
+            } while (!message.equals("bye"));
 
             socket.close();
 

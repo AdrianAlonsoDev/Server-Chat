@@ -11,7 +11,7 @@ import java.net.Socket;
  *
  * @author aalonsoa
  */
-public class UserSocket implements Serializable {
+public class UserSocket {
 
     private User user;
     private Socket socket;

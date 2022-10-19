@@ -13,15 +13,17 @@ import java.net.Socket;
 public class Message {
     private String text;
     private Socket conecction;
+    private User user;
 
     /**
      * Constructor with param
      * @param text text i wanna send
      * @param conecction the socket that send the text
      */
-    public Message(String text, Socket conecction) {
+    public Message(String text, Socket conecction, User user) {
         this.text = text;
         this.conecction = conecction;
+        this.user=user;
     }
 
     public String getText() {
@@ -40,9 +42,14 @@ public class Message {
         this.conecction = conecction;
     }
 
+    public User getUser() {
+        return user;
+    }
+    
+
     @Override
     public String toString() {
-        return text;
+        return user.getNickname()+": "+text;
     }
     
     

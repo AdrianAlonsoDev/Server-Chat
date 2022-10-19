@@ -65,7 +65,7 @@ public class UserDB {
             String line;
 
             while ((line = br.readLine()) != null) {
-                String[] taskString = line.split("|");
+                String[] taskString = line.split("\\Q|");
 
                 User user = new User(
                         taskString[0],//nickname

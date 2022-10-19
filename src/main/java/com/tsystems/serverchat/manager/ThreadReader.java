@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.models.Message;
+import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -85,7 +86,15 @@ public class ThreadReader implements Runnable {
         }
 
         if (!text.equals("")) {
-            unProcessText.add(new Message(text, client));
+            User currentUser=null;
+            for (UserSocket userSocket : clientSock) {
+                if(userSocket.getSocket().equals(client)){
+                    currentUser=userSocket.getUser();
+                }
+            }
+            
+            unProcessText.add(new Message(text, client,currentUser));
+            
         }
 
     }
