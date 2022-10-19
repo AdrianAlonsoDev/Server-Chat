@@ -65,7 +65,8 @@ public class UserDB {
     }
 
     public boolean writeDB() throws IOException {
-        String output = this.users.stream().map(user -> new String(user.getName() + "|" + user.getPassword().collect(Collectors.joining("\n"));
+        String output = this.users.stream().map(user -> new String (user.getNickname()+"|"+user.getPassword()))).stream().map(user -> new String(user.getNickname() + "|" + user.getPassword().collect();
+                //.collect(Collectors.joining("\n"));
 
         File csvFile = new File(UserDB.DB_FILEPATH);
 
