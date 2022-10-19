@@ -11,5 +11,8 @@ package com.tsystems.serverchat;
 public class ConnectionDetails {
     public static int PORT=8080;
     public static String IP= "192.168.3.215";
+    public static String LOGINOPTION="L";
+    public static String REGISTEROPTION="R";
+    public static String SEPARATOR="|";
     
 }
