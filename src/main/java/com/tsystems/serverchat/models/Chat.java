@@ -120,7 +120,8 @@ public class Chat {
      * @see broadcastAll
      */
     public void addText(Message msg) throws IOException {
-        Logger.getLogger(Chat.class.getName()).info(msg.getUser().getNickname()+".."+msg.getChat().nameChat);
+        if(msg.getUser().getNickname() != null)
+            Logger.getLogger(Chat.class.getName()).info(msg.getUser().getNickname()+".."+msg.getChat().nameChat);
         broadcastAll(msg);
     }
 

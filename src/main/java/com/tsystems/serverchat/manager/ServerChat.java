@@ -26,7 +26,7 @@ public class ServerChat {
     private UserManager userManager;
     private ReentrantLock lock;
     private ExecutorService executorService;
-    
+
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
     private ArrayList<Chat> chatList;
@@ -36,7 +36,8 @@ public class ServerChat {
      *
      * @throws IOException if there is an I/O error
      */
-    public ServerChat() throws IOException {
+    public ServerChat() throws IOException
+    {
         this.clientSock = new ArrayList<>();
         this.unProcessText = new ArrayList<>();
         this.chatList = new ArrayList<>();
@@ -56,7 +57,8 @@ public class ServerChat {
      *
      * @throws IOException If there is no connection to the server.
      */
-    public void run() throws IOException {
+    public void run() throws IOException
+    {
 
         startThreads();
 
@@ -69,26 +71,17 @@ public class ServerChat {
 
             ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager, chatDefault);
             executorService.execute(tl);
-
-            //////OLD TEST TO MAKE THE SERVER UP
-//            System.out.println("Received connection ");
-//            UserSocket temp=new UserSocket(new User("asdas","asdasd"), clientSocket);
-//            clientSock.add(temp);
-            //////
         }
 
     }
 
-    private void startThreads() {
+    private void startThreads()
+    {
         ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock, chatList);
         ThreadWriter tw = new ThreadWriter(unProcessText, chatDefault, lock);
 
         executorService.execute(tr);
         executorService.execute(tw);
-    }
-
-    private void process(String read) {
-        //SEND MESAJE TO THE CHAT
     }
 
 }
