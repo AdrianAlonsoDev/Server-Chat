@@ -18,17 +18,21 @@ public class User {
         this.warning = 0;
     }
 
+    public User(String nickname, String password, int warning) {
+        this.nickname = nickname;
+        this.password = password;
+        this.warning = warning;
+    }
+
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 3;
         hash = 59 * hash + Objects.hashCode(this.nickname);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -69,7 +73,5 @@ public class User {
     public void setWarning(int warning) {
         this.warning = warning;
     }
-    
-    
 
 }
