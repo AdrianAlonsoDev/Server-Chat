@@ -38,7 +38,7 @@ public class ThreadLogin implements Runnable {
         this.serverSockets = serverSockets;
         correctOperation = false;
         this.db = um;
-        this.generalChat=generChat;
+        this.generalChat = generChat;
     }
 
     @Override
@@ -141,7 +141,9 @@ public class ThreadLogin implements Runnable {
                 logedUser = db.getUser(words[0]);
             }
         }
-        Logger.getLogger(ThreadLogin.class.getName()).info(logedUser.getNickname());
+        if (logedUser != null) {
+            Logger.getLogger(ThreadLogin.class.getName()).info(logedUser.getNickname());
+        }
     }
 
     /**
@@ -199,7 +201,7 @@ public class ThreadLogin implements Runnable {
     private void addSocket()
     {
         if (correctOperation) {
-            serverSockets.add(new UserSocket(logedUser, client,generalChat ));
+            serverSockets.add(new UserSocket(logedUser, client, generalChat));
         }
     }
 
