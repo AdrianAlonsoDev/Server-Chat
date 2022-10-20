@@ -67,12 +67,12 @@ public class ThreadLogin implements Runnable {
                 addSocket();
 
             } catch (IOException ex) {
-                Logger.getLogger(ThreadLogin.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ThreadLogin.class.getName()).info(ex.getMessage());
 
                 try {
                     client.close();
                 } catch (IOException ex1) {
-                    Logger.getLogger(ThreadLogin.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(ThreadLogin.class.getName()).info(ex1.getMessage());
                 } finally {
                     correctOperation = true;
                 }

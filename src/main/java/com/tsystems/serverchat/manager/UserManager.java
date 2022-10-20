@@ -62,18 +62,6 @@ public class UserManager {
      * @return Returns user object
      * @throws Exception If user does not exits
      */
-<<<<<<< HEAD
-//    public User getUser(String nickname) throws Exception
-//    {
-//        User user = new User(nickname);
-//        if (!this.userdb.exists(nickname)) {
-//            return user;
-//        }
-//
-//        throw new LoginException("User is null");
-//
-//    }
-=======
     public User getUser(String nickname) throws Exception
     {
         User user = new User(nickname);
@@ -84,6 +72,6 @@ public class UserManager {
         throw new LoginException("User is null");
 
     }
->>>>>>> abab4e0407f0cb800813db13dbcf02f9e82ed0a3
+
 
 }

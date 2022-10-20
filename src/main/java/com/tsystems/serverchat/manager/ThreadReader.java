@@ -84,8 +84,10 @@ public class ThreadReader implements Runnable {
         while (reader.ready()) {
             text += reader.readLine();
         }
-
-        if (!text.equals("")) {
+        
+        if(text.equals("")){
+        }        
+        else if (!text.equals("")) {
             User currentUser=null;
             for (UserSocket userSocket : clientSock) {
                 if(userSocket.getSocket().equals(client)){
