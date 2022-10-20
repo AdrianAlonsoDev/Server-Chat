@@ -10,16 +10,16 @@ import java.util.Objects;
  *
  * @author aalonsoa
  */
-
 public class User {
 
     private String nickname;
     private String password;
+    private int warning;
 
-    public User(String nickname, String password)
-    {
+    public User(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
+        this.warning = 0;
     }
 
     @Override
@@ -44,29 +44,34 @@ public class User {
         return Objects.equals(this.nickname, other.nickname);
     }
 
-    public User(String nickname)
-    {
+    public User(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getNickname()
-    {
+    public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname)
-    {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
     }
+
+    public int getWarning() {
+        return warning;
+    }
+
+    public void setWarning(int warning) {
+        this.warning = warning;
+    }
+    
+    
 
 }

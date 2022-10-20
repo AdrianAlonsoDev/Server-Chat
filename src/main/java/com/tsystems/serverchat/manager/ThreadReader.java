@@ -93,7 +93,7 @@ public class ThreadReader implements Runnable {
                 }
             }
 
-            unProcessText.add(new Message(text, client, currentUser));
+            unProcessText.add(new Message(text, client, currentUser, ));
 
         }
 
