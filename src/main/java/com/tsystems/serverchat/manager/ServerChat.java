@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tsystems.serverchat.manager;
 
 import static com.tsystems.serverchat.ConnectionDetails.*;
@@ -18,13 +14,19 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
- * Runs the server client and setups a Socker w/r that sends messages to a Chat.
+ * Runs the server client and setups a Socker writer/reader that sends messages
+ * to a Chat.
  *
  * @author aalonsoa
  */
 public class ServerChat {
 
     private ServerSocket serverSocket;
+    private Chat chatDefault;
+    private UserManager userManager;
+    private ReentrantLock lock;
+    private ExecutorService executorService;
+
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
     private ArrayList<Chat> chatList;
@@ -33,16 +35,24 @@ public class ServerChat {
     private UserManager userManager;
     private Chat chatDefault;
 
+    /**
+     * Set ups and initializes the lists and runs the server.
+     *
+     * @throws IOException if there is an I/O error
+     */
     public ServerChat() throws IOException
     {
-        serverSocket = new ServerSocket(PORT);
-        clientSock = new ArrayList<>();
-        unProcessText = new ArrayList<>();
-        chatDefault = new Chat("All", clientSock);
-        chatList = new ArrayList<>();
-        lock = new ReentrantLock();
-        executorService = Executors.newFixedThreadPool(22);
-        userManager = new UserManager();
+        this.clientSock = new ArrayList<>();
+        this.unProcessText = new ArrayList<>();
+        this.chatList = new ArrayList<>();
+
+        this.serverSocket = new ServerSocket(PORT);
+        this.executorService = Executors.newFixedThreadPool(22);
+        this.chatDefault = new Chat("All", clientSock);
+        this.chatList.add(chatDefault);
+
+        this.userManager = new UserManager();
+        this.lock = new ReentrantLock();
     }
 
     /**
@@ -62,7 +72,7 @@ public class ServerChat {
             System.out.println("Server listening for a connection");
             Socket clientSocket = serverSocket.accept();
 
-            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager);
+            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager, chatDefault);
             executorService.execute(tl);
 
             //////OLD TEST TO MAKE THE SERVER UP
@@ -76,7 +86,7 @@ public class ServerChat {
 
     private void startThreads()
     {
-        ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock);
+        ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock, chatList);
         ThreadWriter tw = new ThreadWriter(unProcessText, chatDefault, lock);
 
         executorService.execute(tr);

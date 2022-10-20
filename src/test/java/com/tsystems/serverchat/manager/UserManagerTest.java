@@ -10,7 +10,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import org.mockito.Mockito;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 import java.util.logging.Level;
 import java.util.logging.Logger;

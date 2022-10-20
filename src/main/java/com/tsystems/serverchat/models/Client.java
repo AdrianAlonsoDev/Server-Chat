@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tsystems.serverchat.models;
 
 import static com.tsystems.serverchat.ConnectionDetails.IP;
@@ -39,9 +35,9 @@ public class Client {
             Scanner in = new Scanner(System.in);
             String message;
             //do {
-                
-                InputStream input = socket.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+
+            InputStream input = socket.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
             do {
                 System.out.println("Enter text: ");
@@ -49,8 +45,6 @@ public class Client {
 
                 writer.println("message");
                 writer.println("test|pasweord");
-
-
 
             } while (!message.equals("bye"));
 

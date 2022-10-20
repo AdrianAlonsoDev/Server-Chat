@@ -1,10 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tsystems.serverchat.manager;
 
 import static com.tsystems.serverchat.ConnectionDetails.*;
+import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
 import java.io.BufferedReader;
@@ -29,13 +26,15 @@ public class ThreadLogin implements Runnable {
     private boolean correctOperation;
     private User logedUser;
     private UserManager db;
+    private Chat generalChat;
 
-    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um)
+    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um, Chat generChat)
     {
         this.client = client;
         this.serverSockets = serverSockets;
         correctOperation = false;
         this.db = um;
+        this.generalChat = generChat;
     }
 
     @Override
@@ -67,12 +66,12 @@ public class ThreadLogin implements Runnable {
                 addSocket();
 
             } catch (IOException ex) {
-                Logger.getLogger(ThreadLogin.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ThreadLogin.class.getName()).info(ex.getMessage());
 
                 try {
                     client.close();
                 } catch (IOException ex1) {
-                    Logger.getLogger(ThreadLogin.class.getName()).log(Level.SEVERE, null, ex1);
+                    Logger.getLogger(ThreadLogin.class.getName()).info(ex1.getMessage());
                 } finally {
                     correctOperation = true;
                 }
@@ -138,7 +137,9 @@ public class ThreadLogin implements Runnable {
                 logedUser = db.getUser(words[0]);
             }
         }
-        Logger.getLogger(ThreadLogin.class.getName()).info(logedUser.getNickname());
+        if (logedUser != null) {
+            Logger.getLogger(ThreadLogin.class.getName()).info(logedUser.getNickname());
+        }
     }
 
     /**
@@ -161,7 +162,7 @@ public class ThreadLogin implements Runnable {
         text = reader.readLine();
 
         String[] words = text.split("\\Q" + SEPARATOR);
-
+        Logger.getLogger(ThreadLogin.class.getName()).info(words[0] + " - " + words[1]);
         if (words.length == 2) {
             correctOperation = db.register(words[0], words[1]);
             if (correctOperation) {
@@ -196,7 +197,7 @@ public class ThreadLogin implements Runnable {
     private void addSocket()
     {
         if (correctOperation) {
-            serverSockets.add(new UserSocket(logedUser, client, chat));
+            serverSockets.add(new UserSocket(logedUser, client, generalChat));
         }
     }
 

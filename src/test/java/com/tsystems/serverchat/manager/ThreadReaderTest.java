@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.manager.ThreadReader;
+import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.Message;
 import com.tsystems.serverchat.models.UserSocket;
 import java.lang.reflect.Array;
@@ -34,9 +35,11 @@ public class ThreadReaderTest {
 
         ArrayList<UserSocket> socketList = new ArrayList<>();
         ArrayList<Message> msgList = new ArrayList<>();
+        ArrayList<Chat> chatList= new ArrayList<>();
+        chatList.add(new Chat("Sala de chat",socketList));
         ReentrantLock lock = new ReentrantLock();
 
-        ThreadReader tr = new ThreadReader(socketList, msgList, lock);
+        ThreadReader tr = new ThreadReader(socketList, msgList, lock,chatList);
 
         when(socketMockOK.isConnected()).thenReturn(true);
         when(socketMockOK.isClosed()).thenReturn(false);
@@ -69,8 +72,10 @@ public class ThreadReaderTest {
         ArrayList<UserSocket> socketList = new ArrayList<>();
         ArrayList<Message> msgList = new ArrayList<>();
         ReentrantLock lock = new ReentrantLock();
+        ArrayList<Chat> chatList= new ArrayList<>();
+        chatList.add(new Chat("Sala de chat",socketList));
 
-        ThreadReader tr = new ThreadReader(socketList, msgList, lock);
+        ThreadReader tr = new ThreadReader(socketList, msgList, lock,chatList);
         when(socketMockOK.getInputStream()).thenReturn(imput);
 
         tr.read(socketMockOK);

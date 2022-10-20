@@ -1,11 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tsystems.serverchat.manager;
 
+import static com.tsystems.serverchat.ConnectionDetails.*;
+import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.Message;
-import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,12 +24,24 @@ public class ThreadReader implements Runnable {
 
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
+    private ArrayList<Chat> activeChats;
+
     private ReentrantLock lock;
 
-    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
+    /**
+     * ThreadReader constructor to read all the sockets.
+     *
+     * @param clientSock Socket that is linked with the user.
+     * @param _unProcessText Will produce a Message object that contains all the
+     * necessary information.
+     * @param lock Lock that will prevent Concurrent modifications
+     * @param activeChats List of the active chats in the server.
+     */
+    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock, ArrayList<Chat> activeChats)
     {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
+        this.activeChats = activeChats;
         this.lock = lock;
     }
 
@@ -47,19 +56,22 @@ public class ThreadReader implements Runnable {
             }
 
             lock.lock();
-            for (UserSocket socket : clientSock) {
-                try {
-                    if (socket.getSocket().isConnected()) {
-                        read(socket.getSocket());
-                    } else {
-                        clearSocket(socket.getSocket());
-                        //true
+            try {
+                for (UserSocket socket : clientSock) {
+                    try {
+                        if (socket.getSocket().isConnected()) {
+                            read(socket.getSocket());
+                        } else {
+                            clearSocket(socket.getSocket());
+                            //true
+                        }
+                    } catch (IOException ex) {
+                        Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } catch (IOException ex) {
-                    Logger.getLogger(ThreadReader.class.getName()).log(Level.SEVERE, null, ex);
                 }
+            } finally {
+                lock.unlock();
             }
-            lock.unlock();
         }
     }
 
@@ -74,6 +86,7 @@ public class ThreadReader implements Runnable {
     {
         InputStream input;
         String text = "";
+        String command = "";
         try {
             input = client.getInputStream();
         } catch (IOException ex) {
@@ -85,18 +98,34 @@ public class ThreadReader implements Runnable {
             text += reader.readLine();
         }
 
-        if (!text.equals("")) {
-            User currentUser = null;
+        if (text.contains(COMMANDCHANGECHAT)) {
+            command = text.split(" ")[1];
+
+            Chat toLeave = null;
+            UserSocket currentUser = null;
+
             for (UserSocket userSocket : clientSock) {
                 if (userSocket.getSocket().equals(client)) {
-                    currentUser = userSocket.getUser();
+                    toLeave = userSocket.getChat();
+                    currentUser = userSocket;
                 }
             }
 
-            unProcessText.add(new Message(text, client, currentUser, ));
+            Chat toChange = searchChat(command);
+            toLeave.removeUser(currentUser);
+            toChange.addUser(currentUser);
+            currentUser.setChat(toChange);
 
+        } else if (!text.equals("")) {
+            UserSocket currentUser = null;
+
+            for (UserSocket userSocket : clientSock) {
+                if (userSocket.getSocket().equals(client)) {
+                    currentUser = userSocket;
+                }
+            }
+            unProcessText.add(new Message(text, client, currentUser.getUser(), currentUser.getChat()));
         }
-
     }
 
     /**
@@ -117,10 +146,32 @@ public class ThreadReader implements Runnable {
             } else {
                 throw new IOException("ThreadReader clearSocket IO Exception Close");
             }
-
         } else {
             throw new IOException("ThreadReader clearSocket IO Exception Connection");
         }
+    }
+
+    /**
+     * Searches a chat with the specified name
+     *
+     * @param command Chat name
+     * @param client Client that will join the specified chat
+     * @return returns the chat created.
+     */
+    private Chat searchChat(String command)
+    {
+        Chat toAdd = null;
+        for (Chat activeChat : activeChats) {
+            if (activeChat.getNameChat().equals(command)) {
+                toAdd = activeChat;
+            }
+        }
+
+        if (toAdd == null) {
+            toAdd = new Chat(command, new ArrayList<>());
+        }
+
+        return toAdd;
     }
 
 }

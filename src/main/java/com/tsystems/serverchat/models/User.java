@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tsystems.serverchat.models;
 
 import java.util.Objects;
@@ -23,14 +19,16 @@ public class User {
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 3;
         hash = 59 * hash + Objects.hashCode(this.nickname);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(Object obj)
+    {
         if (this == obj) {
             return true;
         }
