@@ -167,8 +167,11 @@ public class ThreadReader implements Runnable {
             }
         }
 
-        if (toAdd == null) {
-            toAdd = new Chat(command, new ArrayList<>());
+        
+        if(toAdd==null){
+            toAdd=new Chat(command, new ArrayList<>());
+            activeChats.add(toAdd);
+
         }
 
         return toAdd;

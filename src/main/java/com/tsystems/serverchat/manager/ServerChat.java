@@ -53,6 +53,7 @@ public class ServerChat {
 
         this.userManager = new UserManager();
         this.lock = new ReentrantLock();
+
     }
 
     /**

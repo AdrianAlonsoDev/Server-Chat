@@ -104,7 +104,7 @@ public class Chat {
     private void broadcastAll(Message msg) throws IOException
     {
         for (UserSocket socket : clientSock) {
-            if (!msg.getConecction().equals(socket)) {
+            if (!msg.getConecction().equals(socket.getSocket())) {
                 Logger.getLogger(Chat.class.getName()).info(
                         msg.getUser().getNickname() + ".." + socket.getUser().getNickname());
                 write(socket.getSocket(), msg.toString());
@@ -119,8 +119,8 @@ public class Chat {
      * @throws IOException write error
      * @see broadcastAll
      */
-    public void addText(Message msg) throws IOException
-    {
+    public void addText(Message msg) throws IOException {
+        Logger.getLogger(Chat.class.getName()).info(msg.getUser().getNickname()+".."+msg.getChat().nameChat);
         broadcastAll(msg);
     }
 
