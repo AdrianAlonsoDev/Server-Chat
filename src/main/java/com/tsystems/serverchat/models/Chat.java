@@ -4,6 +4,7 @@
  */
 package com.tsystems.serverchat.models;
 
+import com.tsystems.serverchat.ConnectionDetails;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -20,12 +21,11 @@ public class Chat {
     private ArrayList<UserSocket> clientSock;
     private String text;
     private String nameChat;
-    private int userNum;
+
     /**
      * Constructor defauld
      */
-    public Chat()
-    {
+    public Chat() {
     }
 
     /**
@@ -35,11 +35,9 @@ public class Chat {
      * @param clientSock is Arraylist from Socket
      *
      */
-    public Chat(String nameChat, ArrayList<UserSocket> clientSock)
-    {
+    public Chat(String nameChat, ArrayList<UserSocket> clientSock) {
         this.nameChat = nameChat;
         this.clientSock = clientSock;
-        this.userNum=0;
     }
 
     /**
@@ -47,8 +45,7 @@ public class Chat {
      *
      * @return nameChat
      */
-    public String getNameChat()
-    {
+    public String getNameChat() {
         return nameChat;
     }
 
@@ -56,12 +53,7 @@ public class Chat {
      * Method notificationChat for notification the events
      *
      */
-
     public void notificationChat() {
-        
-        if (userNum<this.clientSock.size()){
-            
-        }
 
     }
 
@@ -72,7 +64,6 @@ public class Chat {
      * @param text to send to the socket
      * @throws IOException for cant write in the socket
      */
-    
     private void write(Socket client, String text) throws IOException {
 
         OutputStream output;
@@ -94,9 +85,7 @@ public class Chat {
      * @throws IOException write error
      * @see write
      */
-    
-    private void broadcastAll(String text) throws IOException
-    {
+    private void broadcastAll(String text) throws IOException {
         for (UserSocket socket : clientSock) {
             write(socket.getSocket(), text);
         }
@@ -109,7 +98,7 @@ public class Chat {
      * @throws IOException write error
      * @see write
      */
-    private void broadcastAll(Message msg) throws IOException{
+    private void broadcastAll(Message msg) throws IOException {
         for (UserSocket socket : clientSock) {
             if (!msg.getConecction().equals(socket)) {
                 write(socket.getSocket(), msg.toString());
@@ -124,7 +113,7 @@ public class Chat {
      * @throws IOException write error
      * @see broadcastAll
      */
-    public void addText(Message msg) throws IOException{
+    public void addText(Message msg) throws IOException {
         broadcastAll(msg);
     }
 
@@ -136,8 +125,7 @@ public class Chat {
      *
      * @see broadcastAll
      */
-    public void addText(String text) throws IOException
-    {
+    public void addText(String text) throws IOException {
         broadcastAll(text);
 
     }
@@ -147,11 +135,20 @@ public class Chat {
      *
      * @param read
      */
-    private void process(String read)
-    {
+    private void process(String read) {
         //SEND MESAJE TO THE CHAT
     }
+
+    private void addUser(UserSocket user) throws IOException {
+        clientSock.add(user);
+        Message systemMessage = new Message("Login to the user: " + user.getUser().getNickname(), null, ConnectionDetails.SYSTEMUSER);
+        addText(systemMessage);
+    }
     
-    
+    private void lessUser(UserSocket user) throws IOException{
+        clientSock.remove(user);
+        Message systemMessage = new Message("The user has left: "  + user.getUser().getNickname(), null, ConnectionDetails.SYSTEMUSER);
+        addText(systemMessage);
+    }
 
 }
