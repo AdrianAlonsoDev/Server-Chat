@@ -164,7 +164,7 @@ public class ThreadLogin implements Runnable {
         text = reader.readLine();
 
         String[] words = text.split("\\Q" + SEPARATOR);
-
+        Logger.getLogger(ThreadLogin.class.getName()).info(words[0] + " - " + words[1]);
         if (words.length == 2) {
             correctOperation = db.register(words[0], words[1]);
             if (correctOperation) {

@@ -66,11 +66,6 @@ public class ServerChat {
             ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager,chatDefault);
             executorService.execute(tl);
 
-            //////OLD TEST TO MAKE THE SERVER UP
-//            System.out.println("Received connection ");
-//            UserSocket temp=new UserSocket(new User("asdas","asdasd"), clientSocket);
-//            clientSock.add(temp);
-            //////
         }
 
     }

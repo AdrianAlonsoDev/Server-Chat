@@ -10,6 +10,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * This class writes messages on a specific chat.
@@ -101,6 +102,8 @@ public class Chat {
     private void broadcastAll(Message msg) throws IOException {
         for (UserSocket socket : clientSock) {
             if (!msg.getConecction().equals(socket)) {
+                Logger.getLogger(Chat.class.getName()).info(
+                        msg.getUser().getNickname()+".."+socket.getUser().getNickname());
                 write(socket.getSocket(), msg.toString());
             }
         }
@@ -141,13 +144,13 @@ public class Chat {
 
     public void addUser(UserSocket user) throws IOException {
         clientSock.add(user);
-        Message systemMessage = new Message("Login to the user: " + user.getUser().getNickname(), null, ConnectionDetails.SYSTEMUSER, user.getChat());
+        Message systemMessage = new Message("Login to the user: " + user.getUser().getNickname(), user.getSocket(), ConnectionDetails.SYSTEMUSER, user.getChat());
         addText(systemMessage);
     }
 
     public void removeUser(UserSocket user) throws IOException {
         clientSock.remove(user);
-        Message systemMessage = new Message("The user has left: " + user.getUser().getNickname(), null, ConnectionDetails.SYSTEMUSER, user.getChat());
+        Message systemMessage = new Message("The user has left: " + user.getUser().getNickname(), user.getSocket(), ConnectionDetails.SYSTEMUSER, user.getChat());
         addText(systemMessage);
     }
 
