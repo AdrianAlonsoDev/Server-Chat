@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.manager;
 
 import static com.tsystems.serverchat.ConnectionDetails.*;
+import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.Message;
 import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
@@ -29,12 +30,14 @@ public class ThreadReader implements Runnable {
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
     private ReentrantLock lock;
+    private ArrayList<Chat> activeChats;
 
-    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock)
+    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock, ArrayList<Chat> activeChats)
     {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
         this.lock = lock;
+        this.activeChats=activeChats;
     }
 
     @Override
@@ -87,20 +90,34 @@ public class ThreadReader implements Runnable {
             text += reader.readLine();
         }
         
-        if(text.equals(COMMANDCHANGECHAT)){
+        if(text.contains(COMMANDCHANGECHAT)){
+            command=text.split(" ")[1];
             
-            
-        }        
-        else if (!text.equals("")) {
-            User currentUser=null;
+            Chat toLeave=null;
+            UserSocket currentUser=null;
 
             for (UserSocket userSocket : clientSock) {
                 if (userSocket.getSocket().equals(client)) {
-                    currentUser = userSocket.getUser();
+                    toLeave = userSocket.getChat();
+                    currentUser=userSocket;
+                }
+            }
+            
+            Chat toChange= searchChat(command, currentUser);
+            toLeave.removeUser(currentUser);
+            toChange.addUser(currentUser);
+            currentUser.setChat(toChange);
+        }        
+        else if (!text.equals("")) {
+            UserSocket currentUser=null;
+
+            for (UserSocket userSocket : clientSock) {
+                if (userSocket.getSocket().equals(client)) {
+                    currentUser = userSocket;
                 }
             }
 
-            unProcessText.add(new Message(text, client, currentUser));
+            unProcessText.add(new Message(text, client, currentUser.getUser(),currentUser.getChat()));
 
         }
 
@@ -128,6 +145,20 @@ public class ThreadReader implements Runnable {
         } else {
             throw new IOException("ThreadReader clearSocket IO Exception Connection");
         }
+    }
+
+    private Chat searchChat(String command, UserSocket client) {
+        Chat toAdd=null;
+        for (Chat activeChat : activeChats) {
+            if(activeChat.getNameChat().equals(command))
+                toAdd=activeChat;
+        }
+        
+        if(toAdd==null){
+            toAdd=new Chat(command, new ArrayList<>());
+        }
+        
+        return toAdd;
     }
 
 }

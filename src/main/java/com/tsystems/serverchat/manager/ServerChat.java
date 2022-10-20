@@ -43,6 +43,7 @@ public class ServerChat {
         lock = new ReentrantLock();
         executorService = Executors.newFixedThreadPool(22);
         userManager = new UserManager();
+        chatList.add(chatDefault);
     }
 
     /**
@@ -62,7 +63,7 @@ public class ServerChat {
             System.out.println("Server listening for a connection");
             Socket clientSocket = serverSocket.accept();
 
-            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager);
+            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager,chatDefault);
             executorService.execute(tl);
 
             //////OLD TEST TO MAKE THE SERVER UP
@@ -76,7 +77,7 @@ public class ServerChat {
 
     private void startThreads()
     {
-        ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock);
+        ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock, chatList);
         ThreadWriter tw = new ThreadWriter(unProcessText, chatDefault, lock);
 
         executorService.execute(tr);

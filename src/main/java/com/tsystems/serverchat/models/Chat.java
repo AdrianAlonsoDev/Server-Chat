@@ -139,13 +139,13 @@ public class Chat {
         //SEND MESAJE TO THE CHAT
     }
 
-    private void addUser(UserSocket user) throws IOException {
+    public void addUser(UserSocket user) throws IOException {
         clientSock.add(user);
         Message systemMessage = new Message("Login to the user: " + user.getUser().getNickname(), null, ConnectionDetails.SYSTEMUSER, user.getChat());
         addText(systemMessage);
     }
 
-    private void removeUser(UserSocket user) throws IOException {
+    public void removeUser(UserSocket user) throws IOException {
         clientSock.remove(user);
         Message systemMessage = new Message("The user has left: " + user.getUser().getNickname(), null, ConnectionDetails.SYSTEMUSER, user.getChat());
         addText(systemMessage);

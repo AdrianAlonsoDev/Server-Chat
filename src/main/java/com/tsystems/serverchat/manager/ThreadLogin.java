@@ -5,6 +5,7 @@
 package com.tsystems.serverchat.manager;
 
 import static com.tsystems.serverchat.ConnectionDetails.*;
+import com.tsystems.serverchat.models.Chat;
 import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
 import java.io.BufferedReader;
@@ -29,13 +30,15 @@ public class ThreadLogin implements Runnable {
     private boolean correctOperation;
     private User logedUser;
     private UserManager db;
+    private Chat generalChat;
 
-    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um)
+    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um, Chat generChat)
     {
         this.client = client;
         this.serverSockets = serverSockets;
         correctOperation = false;
         this.db = um;
+        this.generalChat=generChat;
     }
 
     @Override
@@ -196,7 +199,7 @@ public class ThreadLogin implements Runnable {
     private void addSocket()
     {
         if (correctOperation) {
-            serverSockets.add(new UserSocket(logedUser, client, chat));
+            serverSockets.add(new UserSocket(logedUser, client,generalChat ));
         }
     }
 

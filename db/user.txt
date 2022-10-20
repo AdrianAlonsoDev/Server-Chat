@@ -1,9 +1,6 @@
 test|test
-<<<<<<< HEAD
 gabriel|f9c07e85c6ff94cd6b7029a7a5238076
 juanca|37ad0bddaaa9368e9b8df01184fb5340
 javier|f9c07e85c6ff94cd6b7029a7a5238076
-=======
->>>>>>> cf0ab8a1504008036cc9a005f77629c71e10f6d3
 dos|9f202a5e8987f0c5d0f65549eb9f7b56
 bot|8e695e41ae39f8433ac75185e9de4ad5

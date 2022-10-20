@@ -43,6 +43,7 @@ public class ChatTest {
         User user=new User("","");
         
         ArrayList<UserSocket> socketTestList= new ArrayList<>();
+        Chat chat=new Chat("Sala de chat",socketTestList);
         socketTestList.add(usMock);
         when(usMock.getSocket()).thenReturn(socketMockOK);
         
@@ -51,7 +52,7 @@ public class ChatTest {
         when(socketMockOK.getOutputStream()).thenReturn(imput);
         
         String textString = "Text for example";
-        Message message = new Message(textString,socketMock,user);
+        Message message = new Message(textString,socketMock,user,chat);
         Chat instance = new Chat("test",socketTestList);
         instance.addText(message);
         
