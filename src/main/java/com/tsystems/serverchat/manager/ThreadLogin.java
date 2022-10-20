@@ -196,7 +196,7 @@ public class ThreadLogin implements Runnable {
     private void addSocket()
     {
         if (correctOperation) {
-            serverSockets.add(new UserSocket(logedUser, client));
+            serverSockets.add(new UserSocket(logedUser, client, chat));
         }
     }
 
