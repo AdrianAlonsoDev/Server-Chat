@@ -20,7 +20,7 @@ public class Chat {
     private ArrayList<UserSocket> clientSock;
     private String text;
     private String nameChat;
-
+    private int userNum;
     /**
      * Constructor defauld
      */
@@ -39,6 +39,7 @@ public class Chat {
     {
         this.nameChat = nameChat;
         this.clientSock = clientSock;
+        this.userNum=0;
     }
 
     /**
@@ -57,7 +58,10 @@ public class Chat {
      */
 
     public void notificationChat() {
-
+        
+        if (userNum<this.clientSock.size()){
+            
+        }
 
     }
 
@@ -105,8 +109,7 @@ public class Chat {
      * @throws IOException write error
      * @see write
      */
-    private void broadcastAll(Message msg) throws IOException
-    {
+    private void broadcastAll(Message msg) throws IOException{
         for (UserSocket socket : clientSock) {
             if (!msg.getConecction().equals(socket)) {
                 write(socket.getSocket(), msg.toString());
@@ -121,8 +124,7 @@ public class Chat {
      * @throws IOException write error
      * @see broadcastAll
      */
-    public void addText(Message msg) throws IOException
-    {
+    public void addText(Message msg) throws IOException{
         broadcastAll(msg);
     }
 
@@ -149,5 +151,7 @@ public class Chat {
     {
         //SEND MESAJE TO THE CHAT
     }
+    
+    
 
 }
