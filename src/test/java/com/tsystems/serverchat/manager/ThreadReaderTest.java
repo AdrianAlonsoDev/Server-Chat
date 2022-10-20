@@ -75,7 +75,7 @@ public class ThreadReaderTest {
 
         tr.read(socketMockOK);
 
-        verify(socketMockOK.getInputStream(), times(1));
+        verify(socketMockOK, times(1)).getInputStream();
 
     }
 

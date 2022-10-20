@@ -29,7 +29,7 @@ public class Client {
     public static void run()
     {
 
-        int port = 8080;
+        int port = 2525;
 
         try ( Socket socket = new Socket(IP, port)) {
 
@@ -38,20 +38,21 @@ public class Client {
 
             Scanner in = new Scanner(System.in);
             String message;
-
             //do {
-                System.out.println("Enter text: ");
-                //message = in.nextLine();
-
-                writer.println("L\n"+"test|pasweord");
+                
                 InputStream input = socket.getInputStream();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
-                String time = reader.readLine();
+            do {
+                System.out.println("Enter text: ");
+                message = in.nextLine();
 
-                System.out.println(time);
+                writer.println("message");
+                writer.println("test|pasweord");
 
-            //} while (!message.equals("bye"));
+
+
+            } while (!message.equals("bye"));
 
             socket.close();
 

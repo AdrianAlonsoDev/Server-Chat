@@ -23,7 +23,7 @@ import javax.security.auth.login.LoginException;
  */
 public class UserDB {
 
-    private static final String DB_FILEPATH = "./db/user.csv";
+    private static final String DB_FILEPATH = "./db/user.txt";
     private HashSet<User> users = new HashSet<>();
 
     /**
@@ -55,17 +55,17 @@ public class UserDB {
      * @throws IOException 
      */
     private boolean loadDB() throws FileNotFoundException, IOException {
-        File csvFile = new File(UserDB.DB_FILEPATH);
+        File textFile = new File(UserDB.DB_FILEPATH);
 
-        if (!csvFile.exists()) {
+        if (!textFile.exists()) {
             return false;
         }
 
-        try ( BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+        try ( BufferedReader br = new BufferedReader(new FileReader(textFile))) {
             String line;
 
             while ((line = br.readLine()) != null) {
-                String[] taskString = line.split("|");
+                String[] taskString = line.split("\\Q|");
 
                 User user = new User(
                         taskString[0],//nickname
@@ -91,18 +91,20 @@ public class UserDB {
                 user.getNickname() + "|" + user.getPassword()
         )).collect(Collectors.joining("\n"));
 
-        File csvFile = new File(UserDB.DB_FILEPATH);
+        File textFile = new File(UserDB.DB_FILEPATH);
 
-        if (!csvFile.exists()) {
-            csvFile.getParentFile().mkdirs();
-            csvFile.createNewFile();
+        if (!textFile.exists()) {
+            textFile.getParentFile().mkdirs();
+            textFile.createNewFile();
         }
 
-        try ( PrintWriter pw = new PrintWriter(csvFile)) {
+        try ( PrintWriter pw = new PrintWriter(textFile)) {
             pw.println(output);
+            pw.close();
         }
+        return textFile.exists();
 
-        return csvFile.exists();
+        
     }
 
     /**
@@ -130,30 +132,40 @@ public class UserDB {
      * @return if the user exists
      */
     public boolean exists(String nickname) {
-        return this.users.stream()
-                .filter(u -> u.getNickname().equals(nickname))
-                .findFirst()
-                .isPresent();
+//        return this.users.stream()
+//                .filter(u -> u.getNickname().equals(nickname))
+//                .findFirst()
+//                .isPresent();
+          return users.contains(new User(nickname,""));
     }
 
-    /**
-     * Checks the user exists and logged it 
-     * 
-     * @param nickname
-     * @param password
-     * @return if the user has succesfully loggin
-     * @throws LoginException
-     */
-    public User login(String nickname, String password) throws LoginException {
-        Optional<User> user = this.users.stream()
-                .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
-                .findFirst();
+//    /**
+//     * Checks the user exists and logged it 
+//     * 
+//     * @param nickname
+//     * @param password
+//     * @return if the user has succesfully loggin
+//     * @throws LoginException
+//     */
+//    public User login(String nickname, String password) throws LoginException {
+//        Optional<User> user = this.users.stream()
+//                .filter(u -> u.getNickname().equals(nickname) && u.getPassword().equals(password))
+//                .findFirst();
+//
+//        if (!user.isPresent()) {
+//            throw new LoginException("Credenciales inválidos");
+//        }
+//
+//        return user.get();
+//    }
 
-        if (!user.isPresent()) {
-            throw new LoginException("Credenciales inválidos");
+    public boolean login(String nickname, String password) throws LoginException {
+
+        if (!users.contains(new User(nickname,password))) {
+            return false;
         }
 
-        return user.get();
+        return true;
     }
 
 }

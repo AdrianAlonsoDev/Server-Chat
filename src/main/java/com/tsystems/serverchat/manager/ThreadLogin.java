@@ -30,15 +30,17 @@ public class ThreadLogin implements Runnable {
     private User logedUser;
     private UserManager db;
 
-    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets,UserManager um) {
+    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um)
+    {
         this.client = client;
         this.serverSockets = serverSockets;
         correctOperation = false;
-        this.db=um;
+        this.db = um;
     }
 
     @Override
-    public void run() {
+    public void run()
+    {
 
         while (!correctOperation) {
 
@@ -63,10 +65,10 @@ public class ThreadLogin implements Runnable {
 
                 write();
                 addSocket();
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(ThreadLogin.class.getName()).log(Level.SEVERE, null, ex);
-                
+
                 try {
                     client.close();
                 } catch (IOException ex1) {
@@ -83,32 +85,40 @@ public class ThreadLogin implements Runnable {
 
     /**
      * method that read a socket to get loggin or register option
+     *
      * @param client socket i will read
      * @return the option that has been readed
      * @throws IOException cant read the socket
      */
-    public String readLoginOption(Socket client) throws IOException {
+    public String readLoginOption(Socket client) throws IOException
+    {
         InputStream input;
         String text = "";
         try {
-            if(!client.isInputShutdown()){
+            if (!client.isInputShutdown()) {
                 input = client.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
-                text = reader.readLine();
-                if(text==null)text="";
+                if (input != null) {
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    text = reader.readLine();
+                    if (text == null) {
+                        text = "";
+                    }
+                }
             }
         } catch (IOException ex) {
             throw new IOException("Imput readLoginOption socket Thread Loging IO Exception");
         }
-        
+
         return text;
     }
 
     /**
      * method that read user and pasword form the socket and try login in the db
+     *
      * @throws IOException cant read the socket
      */
-    private void loggin() throws IOException, Exception {
+    private void loggin() throws IOException, Exception
+    {
         InputStream input;
         String text = "";
 
@@ -121,18 +131,24 @@ public class ThreadLogin implements Runnable {
         text = reader.readLine();
 
         String[] words = text.split("\\Q" + SEPARATOR);
-
+        Logger.getLogger(ThreadLogin.class.getName()).info(words[0] + " - " + words[1]);
         if (words.length == 2) {
-            correctOperation = db.login(words[0],words[1]);
-            if(correctOperation) logedUser=db.getUser(words[0]);
+            correctOperation = db.login(words[0], words[1]);
+            if (correctOperation) {
+                logedUser = db.getUser(words[0]);
+            }
         }
+        Logger.getLogger(ThreadLogin.class.getName()).info(logedUser.getNickname());
     }
 
     /**
-     * method that read user and pasword form the socket and try register in the db
+     * method that read user and pasword form the socket and try register in the
+     * db
+     *
      * @throws IOException cant read the socket
      */
-    private void register() throws IOException, Exception {
+    private void register() throws IOException, Exception
+    {
         InputStream input;
         String text = "";
 
@@ -147,16 +163,20 @@ public class ThreadLogin implements Runnable {
         String[] words = text.split("\\Q" + SEPARATOR);
 
         if (words.length == 2) {
-            correctOperation=db.register(words[0],words[1]);
-            if(correctOperation) logedUser=db.getUser(words[0]);
+            correctOperation = db.register(words[0], words[1]);
+            if (correctOperation) {
+                logedUser = db.getUser(words[0]);
+            }
         }
     }
 
     /**
      * Send to the socket how was the operation of register/login
+     *
      * @throws IOException cant write in the socket
      */
-    private void write() throws IOException {
+    private void write() throws IOException
+    {
 
         OutputStream output;
         try {
@@ -167,14 +187,15 @@ public class ThreadLogin implements Runnable {
         PrintWriter writer = new PrintWriter(output, true);
 
         writer.println(correctOperation);
-        
+
     }
 
     /**
      * if the user is ok, we send it to the chat
      */
-    private void addSocket() {
-        if(correctOperation){
+    private void addSocket()
+    {
+        if (correctOperation) {
             serverSockets.add(new UserSocket(logedUser, client));
         }
     }
