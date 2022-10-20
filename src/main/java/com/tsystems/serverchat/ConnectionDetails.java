@@ -14,5 +14,6 @@ public class ConnectionDetails {
     public static String LOGINOPTION="L";
     public static String REGISTEROPTION="R";
     public static String SEPARATOR="|";
+    public static String COMMANDCHANGECHAT="/join "; 
     
 }

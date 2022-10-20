@@ -4,6 +4,7 @@
  */
 package com.tsystems.serverchat.manager;
 
+import static com.tsystems.serverchat.ConnectionDetails.*;
 import com.tsystems.serverchat.models.Message;
 import com.tsystems.serverchat.models.User;
 import com.tsystems.serverchat.models.UserSocket;
@@ -74,6 +75,7 @@ public class ThreadReader implements Runnable {
     {
         InputStream input;
         String text = "";
+        String command="";
         try {
             input = client.getInputStream();
         } catch (IOException ex) {
@@ -85,7 +87,9 @@ public class ThreadReader implements Runnable {
             text += reader.readLine();
         }
         
-        if(text.equals("")){
+        if(text.equals(COMMANDCHANGECHAT)){
+            
+            
         }        
         else if (!text.equals("")) {
             User currentUser=null;
