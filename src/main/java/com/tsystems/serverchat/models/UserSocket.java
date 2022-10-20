@@ -4,7 +4,6 @@
  */
 package com.tsystems.serverchat.models;
 
-import java.io.Serializable;
 import java.net.Socket;
 
 /**
@@ -15,11 +14,23 @@ public class UserSocket {
 
     private User user;
     private Socket socket;
+    private Chat chat;
 
-    public UserSocket(User user, Socket socket)
+    public UserSocket(User user, Socket socket, Chat chat)
     {
         this.user = user;
         this.socket = socket;
+        this.chat = chat;
+    }
+
+    public Chat getChat()
+    {
+        return chat;
+    }
+
+    public void setChat(Chat chat)
+    {
+        this.chat = chat;
     }
 
     public User getUser()

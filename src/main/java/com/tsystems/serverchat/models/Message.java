@@ -4,54 +4,79 @@
  */
 package com.tsystems.serverchat.models;
 
+import java.io.IOException;
 import java.net.Socket;
 
 /**
  * Class holder of a conecction message
+ *
  * @author dpadilla
  */
 public class Message {
+
     private String text;
     private Socket conecction;
     private User user;
+    private Chat chat;
 
     /**
      * Constructor with param
+     *
      * @param text text i wanna send
      * @param conecction the socket that send the text
      */
-    public Message(String text, Socket conecction, User user) {
+    public Message(String text, Socket conection, User user, Chat chat)
+    {
         this.text = text;
-        this.conecction = conecction;
-        this.user=user;
+        this.conecction = conection;
+        this.user = user;
+        this.chat = chat;
     }
 
-    public String getText() {
+    public Chat getChat()
+    {
+        return chat;
+    }
+
+    public void setChat(Chat chat)
+    {
+        this.chat = chat;
+    }
+
+    public String getText()
+    {
         return text;
     }
 
-    public void setText(String text) {
+    public void setText(String text)
+    {
         this.text = text;
     }
 
-    public Socket getConecction() {
+    public void beWrite() throws IOException
+    {
+        chat.addText(this);
+    }
+
+    public Socket getConecction()
+    {
         return conecction;
     }
 
-    public void setConecction(Socket conecction) {
+    public void setConecction(Socket conecction)
+    {
         this.conecction = conecction;
     }
 
-    public User getUser() {
+    public User getUser()
+    {
         return user;
     }
-    
 
     @Override
-    public String toString() {
-        return user.getNickname()+": "+text;
+    public String toString()
+    {
+        return user.getNickname() + ": " + text;
     }
-    
-    
-    
+
 }

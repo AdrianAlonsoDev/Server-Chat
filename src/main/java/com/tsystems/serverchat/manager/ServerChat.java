@@ -4,17 +4,11 @@
  */
 package com.tsystems.serverchat.manager;
 
-import com.tsystems.serverchat.models.Message;
-import com.tsystems.serverchat.models.Chat;
 import static com.tsystems.serverchat.ConnectionDetails.*;
-import com.tsystems.serverchat.models.User;
+import com.tsystems.serverchat.models.Chat;
+import com.tsystems.serverchat.models.Message;
 import com.tsystems.serverchat.models.UserSocket;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -33,14 +27,17 @@ public class ServerChat {
     private ServerSocket serverSocket;
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
+    private ArrayList<Chat> chatList;
     private ReentrantLock lock;
     private ExecutorService executorService;
     private UserManager userManager;
 
-    public ServerChat() throws IOException {
+    public ServerChat() throws IOException
+    {
         serverSocket = new ServerSocket(PORT);
         clientSock = new ArrayList<>();
         unProcessText = new ArrayList<>();
+        chatList = new ArrayList<>();
         lock = new ReentrantLock();
         executorService = Executors.newFixedThreadPool(22);
         userManager = new UserManager();
@@ -51,44 +48,42 @@ public class ServerChat {
      *
      * @throws IOException If there is no connection to the server.
      */
-    public void run() throws IOException {
+    public void run() throws IOException
+    {
 
         startThreads();
-        
+
         while (true) {
 
             InetAddress ia = InetAddress.getLocalHost();
             System.out.println("ip:" + ia);
             System.out.println("Server listening for a connection");
             Socket clientSocket = serverSocket.accept();
-            
-            ThreadLogin tl= new ThreadLogin(clientSocket, clientSock,userManager);
+
+            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager);
             executorService.execute(tl);
-            
-            
+
             //////OLD TEST TO MAKE THE SERVER UP
 //            System.out.println("Received connection ");
 //            UserSocket temp=new UserSocket(new User("asdas","asdasd"), clientSocket);
 //            clientSock.add(temp);
             //////
-            
-            
-
         }
 
     }
 
-    private void startThreads() {
+    private void startThreads()
+    {
         ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock);
         Chat chat = new Chat("All", clientSock);
         ThreadWriter tw = new ThreadWriter(unProcessText, chat, lock);
-    
+
         executorService.execute(tr);
         executorService.execute(tw);
     }
 
-
-    private void process(String read) {
+    private void process(String read)
+    {
         //SEND MESAJE TO THE CHAT
     }
 
