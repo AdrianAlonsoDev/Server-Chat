@@ -4,6 +4,8 @@
  */
 package com.tsystems.serverchat;
 
+import com.tsystems.serverchat.models.User;
+
 /**
  *
  * @author dpadilla
@@ -14,5 +16,6 @@ public class ConnectionDetails {
     public static String LOGINOPTION="L";
     public static String REGISTEROPTION="R";
     public static String SEPARATOR="|";
+    public static User SYSTEMUSER=new User("");
     
 }
