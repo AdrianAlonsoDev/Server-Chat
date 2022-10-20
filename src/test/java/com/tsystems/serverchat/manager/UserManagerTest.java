@@ -6,22 +6,23 @@ package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.models.User;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
+import org.mockito.Mockito;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author dpadilla
+ * @author rruizfer
  */
 public class UserManagerTest {
     
-  
+    public UserManagerTest() {
+    }
 
     /**
      * Test of login method, of class UserManager.
@@ -65,10 +66,39 @@ public class UserManagerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-//
-//    /**
-//     * Test of getUser method, of class UserManager.
-//     */
+
+    /**
+     * Test of register method, of class UserManager.
+     */
+    @Test
+    public void testRegisterExists() throws Exception {
+        UserDB userDB= Mockito.mock(UserDB.class);
+        UserManager manager = new UserManager(userDB);
+        
+        when(userDB.exists("ruben")).thenReturn(true);
+
+        boolean isRegistred = manager.register("ruben", "password");
+        assertFalse(isRegistred);
+    }
+
+    @Test
+    public void testRegisterNotExists() throws Exception {
+        UserDB userDB= Mockito.mock(UserDB.class);
+        UserManager manager = new UserManager(userDB);
+
+        when(userDB.exists("ruben")).thenReturn(false);
+
+        when(userDB.addUser( any())).thenReturn(true);
+        
+        boolean isRegistred = manager.register("ruben", "password");
+        assertTrue(isRegistred);
+    }
+
+    
+    
+    /**
+     * Test of getUser method, of class UserManager.
+     */
 //    @Test
 //    public void testGetUser() throws Exception {
 //        System.out.println("getUser");

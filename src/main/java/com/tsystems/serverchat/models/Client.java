@@ -38,6 +38,10 @@ public class Client {
 
             Scanner in = new Scanner(System.in);
             String message;
+            //do {
+                
+                InputStream input = socket.getInputStream();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(input));
 
             do {
                 System.out.println("Enter text: ");
@@ -45,6 +49,7 @@ public class Client {
 
                 writer.println("message");
                 writer.println("test|pasweord");
+
 
 
             } while (!message.equals("bye"));

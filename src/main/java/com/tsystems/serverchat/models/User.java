@@ -10,6 +10,7 @@ import java.util.Objects;
  *
  * @author aalonsoa
  */
+
 public class User {
 
     private String nickname;
