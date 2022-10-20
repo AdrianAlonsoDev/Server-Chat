@@ -42,10 +42,10 @@ public class ThreadWriter implements Runnable {
 
             lock.lock();
             ArrayList<Message> readArray = new ArrayList<>(messagesArray);
-            for (Message str : readArray) {
+            for (Message msg : readArray) {
                 try {
-                    chat.addText(str);
-                    messagesArray.remove(str);
+                    msg.beWrite();
+                    messagesArray.remove(msg);
                 } catch (IOException ex) {
                     Logger.getLogger(ThreadWriter.class.getName()).log(Level.SEVERE, null, ex);
                 }
