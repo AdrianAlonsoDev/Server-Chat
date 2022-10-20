@@ -21,6 +21,10 @@ public class UserManager {
     public UserManager() {
         this.userdb = new UserDB();
     }
+    
+    public UserManager(UserDB newUserDB){
+        this.userdb = newUserDB;
+    }
 
     /**
      * Logins an user if it exists
@@ -78,3 +82,4 @@ public class UserManager {
         throw new LoginException("User is null");
 
     }
+}

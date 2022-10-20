@@ -56,7 +56,7 @@ public class ChatTest {
         instance.addText(message);
         
         
-        verify(socketMockOK.getOutputStream(), times(0));
+        verify(socketMockOK, times(1)).getOutputStream();
 
     }
 
