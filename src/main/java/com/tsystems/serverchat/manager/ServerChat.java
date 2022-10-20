@@ -38,7 +38,7 @@ public class ServerChat {
         serverSocket = new ServerSocket(PORT);
         clientSock = new ArrayList<>();
         unProcessText = new ArrayList<>();
-        chatDefault = new Chat("All", clientSock);
+        chatDefault = new Chat("All", new ArrayList<>());
         chatList = new ArrayList<>();
         lock = new ReentrantLock();
         executorService = Executors.newFixedThreadPool(22);
