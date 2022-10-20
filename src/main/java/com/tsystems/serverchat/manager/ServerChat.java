@@ -30,10 +30,6 @@ public class ServerChat {
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
     private ArrayList<Chat> chatList;
-    private ReentrantLock lock;
-    private ExecutorService executorService;
-    private UserManager userManager;
-    private Chat chatDefault;
 
     /**
      * Set ups and initializes the lists and runs the server.
