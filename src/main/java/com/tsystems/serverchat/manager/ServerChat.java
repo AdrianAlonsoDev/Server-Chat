@@ -31,12 +31,14 @@ public class ServerChat {
     private ReentrantLock lock;
     private ExecutorService executorService;
     private UserManager userManager;
+    private Chat chatDefault;
 
     public ServerChat() throws IOException
     {
         serverSocket = new ServerSocket(PORT);
         clientSock = new ArrayList<>();
         unProcessText = new ArrayList<>();
+        chatDefault = new Chat("All", clientSock);
         chatList = new ArrayList<>();
         lock = new ReentrantLock();
         executorService = Executors.newFixedThreadPool(22);
@@ -75,8 +77,7 @@ public class ServerChat {
     private void startThreads()
     {
         ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock);
-        Chat chat = new Chat("All", clientSock);
-        ThreadWriter tw = new ThreadWriter(unProcessText, chat, lock);
+        ThreadWriter tw = new ThreadWriter(unProcessText, chatDefault, lock);
 
         executorService.execute(tr);
         executorService.execute(tw);
