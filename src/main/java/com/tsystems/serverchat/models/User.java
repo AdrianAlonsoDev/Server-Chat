@@ -10,24 +10,29 @@ public class User {
 
     private String nickname;
     private String password;
+    private int warning;
 
-    public User(String nickname, String password)
-    {
+    public User(String nickname, String password) {
         this.nickname = nickname;
         this.password = password;
+        this.warning = 0;
+    }
+
+    public User(String nickname, String password, int warning) {
+        this.nickname = nickname;
+        this.password = password;
+        this.warning = warning;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 3;
         hash = 59 * hash + Objects.hashCode(this.nickname);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
+    public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -41,29 +46,32 @@ public class User {
         return Objects.equals(this.nickname, other.nickname);
     }
 
-    public User(String nickname)
-    {
+    public User(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getNickname()
-    {
+    public String getNickname() {
         return nickname;
     }
 
-    public void setNickname(String nickname)
-    {
+    public void setNickname(String nickname) {
         this.nickname = nickname;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password)
-    {
+    public void setPassword(String password) {
         this.password = password;
+    }
+
+    public int getWarning() {
+        return warning;
+    }
+
+    public void setWarning(int warning) {
+        this.warning = warning;
     }
 
 }

@@ -68,7 +68,8 @@ public class UserDB {
 
                 User user = new User(
                         taskString[0],//nickname
-                        taskString[1]//password
+                        taskString[1],//password
+                        Integer.parseInt(taskString[2]) //warning
                 );
 
                 this.users.add(user);
@@ -87,7 +88,7 @@ public class UserDB {
     {
         String output = this.users.stream()
                 .map(user -> new String(
-                user.getNickname() + "|" + user.getPassword()
+                user.getNickname() + "|" + user.getPassword() + "|" + user.getWarning()
         )).collect(Collectors.joining("\n"));
 
         File textFile = new File(UserDB.DB_FILEPATH);
