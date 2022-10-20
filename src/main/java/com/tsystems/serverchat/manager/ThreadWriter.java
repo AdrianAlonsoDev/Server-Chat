@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.tsystems.serverchat.manager;
 
 import com.tsystems.serverchat.models.Chat;
@@ -23,6 +19,13 @@ public class ThreadWriter implements Runnable {
     private Chat chat;
     private ReentrantLock lock;
 
+    /**
+     * Set ups a socket message to send it to the chat.
+     *
+     * @param messagesArray List of messages
+     * @param chat Char where the messages are sent
+     * @param lock Lock situatuon so there is no concurrency
+     */
     public ThreadWriter(ArrayList<Message> messagesArray, Chat chat, ReentrantLock lock)
     {
         this.chat = chat;
