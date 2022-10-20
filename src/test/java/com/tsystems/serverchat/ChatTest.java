@@ -46,7 +46,7 @@ public class ChatTest {
         Chat chat=new Chat("Sala de chat",socketTestList);
         socketTestList.add(usMock);
         when(usMock.getSocket()).thenReturn(socketMockOK);
-        
+        when(usMock.getUser()).thenReturn(user);
         
         OutputStream imput = Mockito.mock(OutputStream.class);
         when(socketMockOK.getOutputStream()).thenReturn(imput);
