@@ -50,7 +50,12 @@ public class BanManager {
         return true;
         
     }
-    
+    /**
+     *Replaces ( , . ; : ) with a empty space
+     * 
+     * @param cad The send message 
+     * @return returns the message without puntuation signs
+     */
     private String replaceChars(String cad) {
         String msg = cad.replace('.', ' ');
         msg = msg.replace(',', ' ');
@@ -60,6 +65,12 @@ public class BanManager {
         return msg;
     }
     
+    /**
+     * Method that check messages, and censure bad words
+     * 
+     * @param msg
+     * @return if the message contains bad words or not
+     */
     public boolean checkMessage(String msg) {
         String remplaced = replaceChars(msg);
         boolean found = false;
