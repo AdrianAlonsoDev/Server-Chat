@@ -62,9 +62,12 @@ public class ThreadLogin implements Runnable {
                     register();
                 }
 
+                if (logedUser.getWarning() > 2) {
+                    correctOperation = false;
+                } else {
+                    addSocket();
+                }
                 write();
-                addSocket();
-
             } catch (IOException ex) {
                 Logger.getLogger(ThreadLogin.class.getName()).info(ex.getMessage());
 
