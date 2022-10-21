@@ -27,6 +27,7 @@ public class ThreadReader implements Runnable {
     private ArrayList<Chat> activeChats;
 
     private ReentrantLock lock;
+    private BanManager banManager;
 
     /**
      * ThreadReader constructor to read all the sockets.
@@ -37,17 +38,17 @@ public class ThreadReader implements Runnable {
      * @param lock Lock that will prevent Concurrent modifications
      * @param activeChats List of the active chats in the server.
      */
-    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText, ReentrantLock lock, ArrayList<Chat> activeChats)
-    {
+    public ThreadReader(ArrayList<UserSocket> clientSock, ArrayList<Message> _unProcessText,
+            ReentrantLock lock, ArrayList<Chat> activeChats, BanManager banManager) {
         this.unProcessText = _unProcessText;
         this.clientSock = clientSock;
         this.activeChats = activeChats;
         this.lock = lock;
+        this.banManager = banManager;
     }
 
     @Override
-    public void run()
-    {
+    public void run() {
         while (true) {
             try {
                 Thread.sleep(500);
@@ -82,11 +83,11 @@ public class ThreadReader implements Runnable {
      * @return text that has been readed from the socket
      * @throws IOException the socket can not be readed
      */
-    public void read(Socket client) throws IOException
-    {
+    public void read(Socket client) throws IOException {
         InputStream input;
         String text = "";
         String command = "";
+        boolean badText = false;
         try {
             input = client.getInputStream();
         } catch (IOException ex) {
@@ -101,6 +102,8 @@ public class ThreadReader implements Runnable {
         if (text.contains(COMMANDCHANGECHAT)) {
             command = text.split(" ")[1];
 
+            badText = banManager.checkMessage(command);
+
             Chat toLeave = null;
             UserSocket currentUser = null;
 
@@ -111,20 +114,40 @@ public class ThreadReader implements Runnable {
                 }
             }
 
-            Chat toChange = searchChat(command);
-            toLeave.removeUser(currentUser);
-            toChange.addUser(currentUser);
-            currentUser.setChat(toChange);
+            if (badText) {
+                banManager.addWarning(currentUser.getUser());
+                if (banManager.youBanForever(currentUser.getUser())) {
+                    currentUser.getSocket().close();
+                    clientSock.remove(currentUser);
+                }
+            } else {
+                Chat toChange = searchChat(command);
+                toLeave.removeUser(currentUser);
+                toChange.addUser(currentUser);
+                currentUser.setChat(toChange);
+            }
 
         } else if (!text.equals("")) {
+
             UserSocket currentUser = null;
+            badText = banManager.checkMessage(text);
 
             for (UserSocket userSocket : clientSock) {
                 if (userSocket.getSocket().equals(client)) {
                     currentUser = userSocket;
                 }
             }
+
+            if (badText) {
+                banManager.addWarning(currentUser.getUser());
+
+            }
             unProcessText.add(new Message(text, client, currentUser.getUser(), currentUser.getChat()));
+
+            if (banManager.youBanForever(currentUser.getUser())) {
+                currentUser.getSocket().close();
+                clientSock.remove(currentUser);
+            }
         }
     }
 
@@ -134,8 +157,7 @@ public class ThreadReader implements Runnable {
      * @param client socket to be deleted
      * @throws IOException if the socket is already close or disconnected
      */
-    public void clearSocket(Socket client) throws IOException
-    {
+    public void clearSocket(Socket client) throws IOException {
         if (client.isConnected()) {
             client.close();
             if (client.isClosed()) {
@@ -158,8 +180,7 @@ public class ThreadReader implements Runnable {
      * @param client Client that will join the specified chat
      * @return returns the chat created.
      */
-    private Chat searchChat(String command)
-    {
+    private Chat searchChat(String command) {
         Chat toAdd = null;
         for (Chat activeChat : activeChats) {
             if (activeChat.getNameChat().equals(command)) {

@@ -23,8 +23,10 @@ public class BanManager {
     
     private static final String DB_FILEPATH = "./badword.txt";
     private HashSet<String> badword;
+    private UserManager userdb;
 
-    public BanManager() {
+    public BanManager(UserManager userdb) {
+        this.userdb= userdb;
         badword = new HashSet<>();
         try {
             loadBadWord();
@@ -52,8 +54,9 @@ public class BanManager {
 
     }
 
-    public void addWarning() {
-        
+    public void addWarning(User user) throws IOException {
+        user.setWarning(user.getWarning()+1);  
+        userdb.writeBan();
     }
 
     public boolean youBanForever(User user) {

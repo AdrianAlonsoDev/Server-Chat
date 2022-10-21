@@ -62,10 +62,17 @@ public class UserManager {
     {
         User user = new User(nickname);
         if (this.userdb.exists(nickname)) {
-            return user;
+            
+            return user=userdb.getUser(user);
         }
 
         throw new LoginException("User is null");
+
+    }
+    
+    
+    public void writeBan() throws IOException {
+        userdb.writeDB();
 
     }
 
