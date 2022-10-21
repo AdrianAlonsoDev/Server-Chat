@@ -138,6 +138,8 @@ public class ThreadLogin implements Runnable {
             correctOperation = db.login(words[0], words[1]);
             if (correctOperation) {
                 logedUser = db.getUser(words[0]);
+            } else {
+                logedUser = new User("", "", 0);
             }
         }
         if (logedUser != null) {
