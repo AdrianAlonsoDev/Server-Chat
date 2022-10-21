@@ -101,20 +101,21 @@ public class BanManager {
      * @param msg
      * @return if the message contains bad words or not
      */
-    public boolean checkMessage(String msg) {
+    public String checkMessage(String msg) {
+        
         String remplaced = replaceChars(msg);
-        boolean found = false;
         String[] myArray = remplaced.split(" ");
+        
         for (int i = 0; i < myArray.length; i++) {
             for (String bw : badword) {
                 if (myArray[i].contains(bw)) {
-                    msg.replace(myArray[i], "****");
-                    found = true;
+                    msg=msg.replaceAll("\\Q"+myArray[i], "****");
+                    
                 }
             }
-            
+    
         }
-        return found;
+        return msg;
     }
     
     public void adminWarning() {

@@ -15,9 +15,9 @@ public class BanManagerTest {
         BanManager bm = new BanManager(new UserManager());
 
         String strTest = "Hola, eres una puta";
-        bm.checkMessage(strTest);
-        System.out.println(strTest);
-        assertNotEquals("Hola, eres una puta", strTest);
+         String censure ="";
+        censure=bm.checkMessage(strTest);
+        assertNotEquals(censure, strTest);
     }
 
 }

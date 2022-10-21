@@ -87,6 +87,7 @@ public class ThreadReader implements Runnable {
         InputStream input;
         String text = "";
         String command = "";
+        String censure="";
         boolean badText = false;
         try {
             input = client.getInputStream();
@@ -101,8 +102,8 @@ public class ThreadReader implements Runnable {
 
         if (text.contains(COMMANDCHANGECHAT)) {
             command = text.split(" ")[1];
-
-            badText = banManager.checkMessage(command);
+            censure=banManager.checkMessage(command);
+            badText = command.equals(censure);
 
             Chat toLeave = null;
             UserSocket currentUser = null;
@@ -121,7 +122,7 @@ public class ThreadReader implements Runnable {
                     clientSock.remove(currentUser);
                 }
             } else {
-                Chat toChange = searchChat(command);
+                Chat toChange = searchChat(censure);
                 toLeave.removeUser(currentUser);
                 toChange.addUser(currentUser);
                 currentUser.setChat(toChange);
@@ -130,8 +131,9 @@ public class ThreadReader implements Runnable {
         } else if (!text.equals("")) {
 
             UserSocket currentUser = null;
-            badText = banManager.checkMessage(text);
-
+            censure = banManager.checkMessage(command);
+            badText = command.equals(censure);
+            
             for (UserSocket userSocket : clientSock) {
                 if (userSocket.getSocket().equals(client)) {
                     currentUser = userSocket;
@@ -142,7 +144,7 @@ public class ThreadReader implements Runnable {
                 banManager.addWarning(currentUser.getUser());
 
             }
-            unProcessText.add(new Message(text, client, currentUser.getUser(), currentUser.getChat()));
+            unProcessText.add(new Message(censure, client, currentUser.getUser(), currentUser.getChat()));
 
             if (banManager.youBanForever(currentUser.getUser())) {
                 currentUser.getSocket().close();
