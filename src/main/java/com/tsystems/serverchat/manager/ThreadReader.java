@@ -57,12 +57,12 @@ public class ThreadReader implements Runnable {
 
             lock.lock();
             try {
-                for (UserSocket socket : clientSock) {
+                for (int i = 0; i < clientSock.size(); i++) {
                     try {
-                        if (socket.getSocket().isConnected()) {
-                            read(socket.getSocket());
+                        if (clientSock.get(i).getSocket().isConnected()) {
+                            read(clientSock.get(i).getSocket());
                         } else {
-                            clearSocket(socket.getSocket());
+                            clearSocket(clientSock.get(i).getSocket());
                             //true
                         }
                     } catch (IOException ex) {
@@ -167,9 +167,8 @@ public class ThreadReader implements Runnable {
             }
         }
 
-        
-        if(toAdd==null){
-            toAdd=new Chat(command, new ArrayList<>());
+        if (toAdd == null) {
+            toAdd = new Chat(command, new ArrayList<>());
             activeChats.add(toAdd);
 
         }
