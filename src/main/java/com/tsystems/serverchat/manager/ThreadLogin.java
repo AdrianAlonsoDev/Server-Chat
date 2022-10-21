@@ -27,14 +27,16 @@ public class ThreadLogin implements Runnable {
     private User logedUser;
     private UserManager db;
     private Chat generalChat;
+    private BanManager banManager;
 
-    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um, Chat generChat)
+    public ThreadLogin(Socket client, ArrayList<UserSocket> serverSockets, UserManager um, Chat generChat, BanManager banManager)
     {
         this.client = client;
         this.serverSockets = serverSockets;
         correctOperation = false;
         this.db = um;
         this.generalChat = generChat;
+        this.banManager=banManager;
     }
 
     @Override
@@ -136,6 +138,13 @@ public class ThreadLogin implements Runnable {
         Logger.getLogger(ThreadLogin.class.getName()).info(words[0] + " - " + words[1]);
         if (words.length == 2) {
             correctOperation = db.login(words[0], words[1]);
+            
+            String censure = banManager.checkMessage(words[0]);
+
+            boolean badText = words[0].equals(censure);
+
+            if(!badText) correctOperation=false;
+            
             if (correctOperation) {
                 logedUser = db.getUser(words[0]);
             } else {

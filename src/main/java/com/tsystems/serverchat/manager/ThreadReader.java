@@ -133,9 +133,9 @@ public class ThreadReader implements Runnable {
             UserSocket currentUser = null;
             
             censure = banManager.checkMessage(text);
-            Logger.getLogger(ThreadReader.class.getName()).info(text);
+
             badText = text.equals(censure);
-            Logger.getLogger(ThreadReader.class.getName()).info(censure);
+
             if(!badText) text=censure;
             
             for (UserSocket userSocket : clientSock) {

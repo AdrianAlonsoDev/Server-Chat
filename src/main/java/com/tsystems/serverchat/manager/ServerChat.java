@@ -71,7 +71,7 @@ public class ServerChat {
             System.out.println("Server listening for a connection");
             Socket clientSocket = serverSocket.accept();
 
-            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager, chatDefault);
+            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager, chatDefault, banManager);
             executorService.execute(tl);
         }
 
