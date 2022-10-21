@@ -41,6 +41,7 @@ public class UserManager {
      * @param nickname User choosen unique nickname
      * @param password User selected password
      * @return if user was correctly registered
+     * @throws java.io.IOException
      */
     public boolean register(String nickname, String password) throws IOException
     {
