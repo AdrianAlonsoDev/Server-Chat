@@ -115,7 +115,7 @@ public class ThreadReader implements Runnable {
                 }
             }
 
-            if (badText) {
+            if (!badText) {
                 banManager.addWarning(currentUser.getUser());
                 if (banManager.youBanForever(currentUser.getUser())) {
                     currentUser.getSocket().close();
@@ -131,8 +131,12 @@ public class ThreadReader implements Runnable {
         } else if (!text.equals("")) {
 
             UserSocket currentUser = null;
-            censure = banManager.checkMessage(command);
-            badText = command.equals(censure);
+            
+            censure = banManager.checkMessage(text);
+            Logger.getLogger(ThreadReader.class.getName()).info(text);
+            badText = text.equals(censure);
+            Logger.getLogger(ThreadReader.class.getName()).info(censure);
+            if(!badText) text=censure;
             
             for (UserSocket userSocket : clientSock) {
                 if (userSocket.getSocket().equals(client)) {
@@ -140,11 +144,11 @@ public class ThreadReader implements Runnable {
                 }
             }
 
-            if (badText) {
+            if (!badText) {
                 banManager.addWarning(currentUser.getUser());
 
             }
-            unProcessText.add(new Message(censure, client, currentUser.getUser(), currentUser.getChat()));
+            unProcessText.add(new Message(text, client, currentUser.getUser(), currentUser.getChat()));
 
             if (banManager.youBanForever(currentUser.getUser())) {
                 currentUser.getSocket().close();
