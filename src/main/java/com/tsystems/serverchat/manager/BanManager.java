@@ -110,8 +110,10 @@ public class BanManager {
         for (int i = 0; i < myArray.length; i++) {
             for (String bw : badword) {
                 if (myArray[i].contains(bw)) {
-                    msg=msg.replaceAll("\\Q"+myArray[i], "****");
-                    
+                    //msg=msg.replaceAll("\\Q"+myArray[i], "****");
+                    int ini=remplaced.indexOf(myArray[i]);
+                    String toChange=msg.substring(ini, ini+myArray[i].length());
+                    msg=msg.replaceAll("\\Q"+toChange, "****");
                 }
             }
     
