@@ -16,14 +16,16 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 /**
- *
- * @author ramaldon
+ *  Class that cointains a HashSet of bad words and censure them to the users. 
+ * 
+ * @author ramaldon && rruizfer
  */
 public class BanManager {
     
     private static final String DB_FILEPATH = "./badword.txt";
     private HashSet<String> badword;
     private UserManager userdb;
+
 
     public BanManager(UserManager userdb) {
         this.userdb= userdb;
@@ -35,6 +37,13 @@ public class BanManager {
         }
     }
     
+    /**
+     * Method that checks that the file exists and add the words to a HashSet
+     * 
+     * @return if the file exists or not
+     * @throws FileNotFoundException if the file doesn't exists
+     * @throws IOException if the words can't be added
+     */
     private boolean loadBadWord() throws FileNotFoundException, IOException {
         File textFile = new File(BanManager.DB_FILEPATH);
 
@@ -59,6 +68,11 @@ public class BanManager {
         userdb.writeBan();
     }
 
+    /**
+     * Method that cheks if the user is banned
+     * @param user
+     * @return if is banned or not
+     */
     public boolean youBanForever(User user) {
         if (user.getWarning() > 2) {
             return true;
@@ -67,7 +81,7 @@ public class BanManager {
     }
 
     /**
-     *Replaces ( , . ; : ) with a empty space
+     * Replaces ( , . ; : ) with a empty space
      * 
      * @param cad The send message 
      * @return returns the message without puntuation signs
