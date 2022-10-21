@@ -105,6 +105,28 @@ public class UserDB {
         return textFile.exists();
 
     }
+    
+        public boolean writeBan() throws IOException
+    {
+        String output = this.users.stream()
+                .map(user -> new String(
+                user.getNickname() + "|" + user.getPassword() + "|" + user.getWarning()
+        )).collect(Collectors.joining("\n"));
+
+        File textFile = new File(UserDB.DB_FILEPATH);
+
+        if (!textFile.exists()) {
+            textFile.getParentFile().mkdirs();
+            textFile.createNewFile();
+        }
+
+        try ( PrintWriter pw = new PrintWriter(textFile)) {
+            pw.println(output);
+            pw.close();
+        }
+        return textFile.exists();
+
+    }
 
     /**
      * Checks if a user is already registered and if it is not adds the user to

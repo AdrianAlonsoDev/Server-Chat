@@ -22,9 +22,10 @@ import java.util.stream.Collectors;
 public class BanManager {
 
     private static final String DB_FILEPATH = "./badword.txt";
-    private HashSet<String> badword = new HashSet<>();
+    private HashSet<String> badword;
 
     public BanManager() {
+        badword = new HashSet<>();
         try {
             loadBadWord();
         } catch (IOException ex) {
@@ -33,7 +34,7 @@ public class BanManager {
     }
 
     private boolean loadBadWord() throws FileNotFoundException, IOException {
-        File textFile = new File( BanManager.DB_FILEPATH);
+        File textFile = new File(BanManager.DB_FILEPATH);
 
         if (!textFile.exists()) {
             return false;
@@ -50,9 +51,16 @@ public class BanManager {
         return true;
 
     }
-    
-    public void adminWarning (){
+
+    public void addWarning() {
         
+    }
+
+    public boolean youBanForever(User user) {
+        if (user.getWarning() > 2) {
+            return true;
+        }
+        return false;
     }
 
 }
