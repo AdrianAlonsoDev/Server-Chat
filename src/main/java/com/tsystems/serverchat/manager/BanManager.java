@@ -104,6 +104,7 @@ public class BanManager {
     public String checkMessage(String msg) {
         
         String remplaced = replaceChars(msg);
+        remplaced.toLowerCase();
         String[] myArray = remplaced.split(" ");
         
         for (int i = 0; i < myArray.length; i++) {
