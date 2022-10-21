@@ -20,10 +20,10 @@ import java.util.stream.Collectors;
  * @author ramaldon
  */
 public class BanManager {
-
+    
     private static final String DB_FILEPATH = "./badword.txt";
     private HashSet<String> badword = new HashSet<>();
-
+    
     public BanManager() {
         try {
             loadBadWord();
@@ -31,28 +31,53 @@ public class BanManager {
             Logger.getLogger(BanManager.class.getName()).info(ex.getMessage());
         }
     }
-
+    
     private boolean loadBadWord() throws FileNotFoundException, IOException {
-        File textFile = new File( BanManager.DB_FILEPATH);
-
+        File textFile = new File(BanManager.DB_FILEPATH);
+        
         if (!textFile.exists()) {
             return false;
         }
-
+        
         try ( BufferedReader br = new BufferedReader(new FileReader(textFile))) {
             String line;
-
+            
             while ((line = br.readLine()) != null) {
                 String taskString = line;
                 this.badword.add(taskString);
             }
         }
         return true;
-
-    }
-    
-    public void adminWarning (){
         
     }
-
+    
+    private String replaceChars(String cad) {
+        String msg = cad.replace('.', ' ');
+        msg = msg.replace(',', ' ');
+        msg = msg.replace(';', ' ');
+        msg = msg.replace(':', ' ');
+        
+        return msg;
+    }
+    
+    public boolean checkMessage(String msg) {
+        String remplaced = replaceChars(msg);
+        boolean found = false;
+        String[] myArray = remplaced.split(" ");
+        for (int i = 0; i < myArray.length; i++) {
+            for (String bw : badword) {
+                if (myArray[i].contains(bw)) {
+                    msg.replace(myArray[i], "****");
+                    found = true;
+                }
+            }
+            
+        }
+        return found;
+    }
+    
+    public void adminWarning() {
+        
+    }
+    
 }
