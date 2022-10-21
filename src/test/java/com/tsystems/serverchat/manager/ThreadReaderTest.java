@@ -35,11 +35,13 @@ public class ThreadReaderTest {
 
         ArrayList<UserSocket> socketList = new ArrayList<>();
         ArrayList<Message> msgList = new ArrayList<>();
-        ArrayList<Chat> chatList= new ArrayList<>();
-        chatList.add(new Chat("Sala de chat",socketList));
+        ArrayList<Chat> chatList = new ArrayList<>();
+        chatList.add(new Chat("Sala de chat", socketList));
         ReentrantLock lock = new ReentrantLock();
+        UserManager userdb = new UserManager();
 
-        ThreadReader tr = new ThreadReader(socketList, msgList, lock,chatList);
+        BanManager banManager = new BanManager(userdb);
+        ThreadReader tr = new ThreadReader(socketList, msgList, lock, chatList, banManager);
 
         when(socketMockOK.isConnected()).thenReturn(true);
         when(socketMockOK.isClosed()).thenReturn(false);
@@ -72,10 +74,12 @@ public class ThreadReaderTest {
         ArrayList<UserSocket> socketList = new ArrayList<>();
         ArrayList<Message> msgList = new ArrayList<>();
         ReentrantLock lock = new ReentrantLock();
-        ArrayList<Chat> chatList= new ArrayList<>();
-        chatList.add(new Chat("Sala de chat",socketList));
+        ArrayList<Chat> chatList = new ArrayList<>();
+        chatList.add(new Chat("Sala de chat", socketList));
+        UserManager userdb = new UserManager();
 
-        ThreadReader tr = new ThreadReader(socketList, msgList, lock,chatList);
+        BanManager banManager = new BanManager(userdb);
+        ThreadReader tr = new ThreadReader(socketList, msgList, lock, chatList, banManager);
         when(socketMockOK.getInputStream()).thenReturn(imput);
 
         tr.read(socketMockOK);
@@ -85,4 +89,3 @@ public class ThreadReaderTest {
     }
 
 }
-

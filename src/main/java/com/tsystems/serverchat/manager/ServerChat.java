@@ -30,6 +30,7 @@ public class ServerChat {
     private ArrayList<UserSocket> clientSock;
     private ArrayList<Message> unProcessText;
     private ArrayList<Chat> chatList;
+    private BanManager banManager;
 
     /**
      * Set ups and initializes the lists and runs the server.
@@ -49,6 +50,7 @@ public class ServerChat {
 
         this.userManager = new UserManager();
         this.lock = new ReentrantLock();
+        this.banManager = new BanManager(userManager);
 
     }
 
@@ -69,15 +71,18 @@ public class ServerChat {
             System.out.println("Server listening for a connection");
             Socket clientSocket = serverSocket.accept();
 
-            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager, chatDefault);
+            ThreadLogin tl = new ThreadLogin(clientSocket, clientSock, userManager, chatDefault, banManager);
             executorService.execute(tl);
         }
 
     }
 
+    /**
+     * Method to start the reader and writer in the sockets
+     */
     private void startThreads()
     {
-        ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock, chatList);
+        ThreadReader tr = new ThreadReader(clientSock, unProcessText, lock, chatList,banManager);
         ThreadWriter tw = new ThreadWriter(unProcessText, chatDefault, lock);
 
         executorService.execute(tr);

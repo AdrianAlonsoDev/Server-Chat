@@ -27,8 +27,7 @@ public class UserDB {
      *
      * @see loadDB
      */
-    public UserDB()
-    {
+    public UserDB() {
         try {
             loadDB();
         } catch (IOException ex) {
@@ -39,8 +38,7 @@ public class UserDB {
     /**
      * @return the users
      */
-    public HashSet<User> getUsers()
-    {
+    public HashSet<User> getUsers() {
         return users;
     }
 
@@ -52,8 +50,7 @@ public class UserDB {
      * @throws FileNotFoundException
      * @throws IOException
      */
-    private boolean loadDB() throws FileNotFoundException, IOException
-    {
+    private boolean loadDB() throws FileNotFoundException, IOException {
         File textFile = new File(UserDB.DB_FILEPATH);
 
         if (!textFile.exists()) {
@@ -84,8 +81,7 @@ public class UserDB {
      * @return boolean
      * @throws IOException
      */
-    public boolean writeDB() throws IOException
-    {
+    public boolean writeDB() throws IOException {
         String output = this.users.stream()
                 .map(user -> new String(
                 user.getNickname() + "|" + user.getPassword() + "|" + user.getWarning()
@@ -106,6 +102,8 @@ public class UserDB {
 
     }
 
+    
+
     /**
      * Checks if a user is already registered and if it is not adds the user to
      * the file.
@@ -114,8 +112,7 @@ public class UserDB {
      * @return boolan if the user has been aded or already exists.
      * @throws IOException
      */
-    public boolean addUser(User user) throws IOException
-    {
+    public boolean addUser(User user) throws IOException {
         if (!exists(user.getNickname())) {
             this.users.add(user);
             if (writeDB()) {
@@ -132,8 +129,7 @@ public class UserDB {
      * @param nickname Nickname string of the user
      * @return if the user exists
      */
-    public boolean exists(String nickname)
-    {
+    public boolean exists(String nickname) {
         return users.contains(new User(nickname, ""));
     }
 
@@ -144,12 +140,23 @@ public class UserDB {
      * @param password Password string of the user
      * @return true or false if user loggeed in
      */
-    public boolean login(String nickname, String password) throws LoginException
-    {
+    public boolean login(String nickname, String password) throws LoginException {
         if (!users.contains(new User(nickname, password))) {
             return false;
         }
         return true;
+    }
+    
+    
+    public User getUser(User user){
+        User found=new User("");
+        for (User user1 : users) {
+            if(user1.equals(user)){
+                found.setNickname(user1.getNickname());
+                found.setWarning(user1.getWarning());
+            }
+        }
+        return found;      
     }
 
 }
